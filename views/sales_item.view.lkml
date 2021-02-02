@@ -2,71 +2,9 @@ view: sales_item {
   sql_table_name: `leafy-habitat-174801.looker.sales_item`
     ;;
 
-  dimension_group: _sdc_batched {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}._sdc_batched_at ;;
-  }
-
-  dimension_group: _sdc_extracted {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}._sdc_extracted_at ;;
-  }
-
-  dimension_group: _sdc_received {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}._sdc_received_at ;;
-  }
-
-  dimension: _sdc_sequence {
-    type: number
-    sql: ${TABLE}._sdc_sequence ;;
-  }
-
-  dimension: _sdc_table_version {
-    type: number
-    sql: ${TABLE}._sdc_table_version ;;
-  }
-
-  dimension: amount_refunded {
-    type: number
-    sql: ${TABLE}.amount_refunded ;;
-  }
-
   dimension: applied_rule_ids {
     type: string
     sql: ${TABLE}.applied_rule_ids ;;
-  }
-
-  dimension: base_amount_refunded {
-    type: number
-    sql: ${TABLE}.base_amount_refunded ;;
   }
 
   dimension: base_discount_amount {
@@ -74,29 +12,9 @@ view: sales_item {
     sql: ${TABLE}.base_discount_amount ;;
   }
 
-  dimension: base_discount_invoiced {
-    type: number
-    sql: ${TABLE}.base_discount_invoiced ;;
-  }
-
-  dimension: base_discount_refunded {
-    type: number
-    sql: ${TABLE}.base_discount_refunded ;;
-  }
-
   dimension: base_discount_tax_compensation_amount {
     type: number
     sql: ${TABLE}.base_discount_tax_compensation_amount ;;
-  }
-
-  dimension: base_discount_tax_compensation_invoiced {
-    type: number
-    sql: ${TABLE}.base_discount_tax_compensation_invoiced ;;
-  }
-
-  dimension: base_discount_tax_compensation_refunded {
-    type: number
-    sql: ${TABLE}.base_discount_tax_compensation_refunded ;;
   }
 
   dimension: base_original_price {
@@ -114,11 +32,6 @@ view: sales_item {
     sql: ${TABLE}.base_price_incl_tax ;;
   }
 
-  dimension: base_row_invoiced {
-    type: number
-    sql: ${TABLE}.base_row_invoiced ;;
-  }
-
   dimension: base_row_total {
     type: number
     sql: ${TABLE}.base_row_total ;;
@@ -132,16 +45,6 @@ view: sales_item {
   dimension: base_tax_amount {
     type: number
     sql: ${TABLE}.base_tax_amount ;;
-  }
-
-  dimension: base_tax_invoiced {
-    type: number
-    sql: ${TABLE}.base_tax_invoiced ;;
-  }
-
-  dimension: base_tax_refunded {
-    type: number
-    sql: ${TABLE}.base_tax_refunded ;;
   }
 
   dimension_group: created {
@@ -163,39 +66,9 @@ view: sales_item {
     sql: ${TABLE}.discount_amount ;;
   }
 
-  dimension: discount_invoiced {
-    type: number
-    sql: ${TABLE}.discount_invoiced ;;
-  }
-
-  dimension: discount_percent {
-    type: number
-    sql: ${TABLE}.discount_percent ;;
-  }
-
-  dimension: discount_refunded {
-    type: number
-    sql: ${TABLE}.discount_refunded ;;
-  }
-
   dimension: discount_tax_compensation_amount {
     type: number
     sql: ${TABLE}.discount_tax_compensation_amount ;;
-  }
-
-  dimension: discount_tax_compensation_canceled {
-    type: number
-    sql: ${TABLE}.discount_tax_compensation_canceled ;;
-  }
-
-  dimension: discount_tax_compensation_invoiced {
-    type: number
-    sql: ${TABLE}.discount_tax_compensation_invoiced ;;
-  }
-
-  dimension: discount_tax_compensation_refunded {
-    type: number
-    sql: ${TABLE}.discount_tax_compensation_refunded ;;
   }
 
   dimension: food_days {
@@ -244,11 +117,6 @@ view: sales_item {
     sql: ${TABLE}.order_id ;;
   }
 
-  dimension: original_price {
-    type: number
-    sql: ${TABLE}.original_price ;;
-  }
-
   dimension: package_image {
     type: string
     sql: ${TABLE}.package_image ;;
@@ -269,16 +137,6 @@ view: sales_item {
     sql: ${TABLE}.pre_order ;;
   }
 
-  dimension: price {
-    type: number
-    sql: ${TABLE}.price ;;
-  }
-
-  dimension: price_incl_tax {
-    type: number
-    sql: ${TABLE}.price_incl_tax ;;
-  }
-
   dimension: product_id {
     type: number
     sql: ${TABLE}.product_id ;;
@@ -294,29 +152,9 @@ view: sales_item {
     sql: ${TABLE}.product_type ;;
   }
 
-  dimension: qty_canceled {
-    type: number
-    sql: ${TABLE}.qty_canceled ;;
-  }
-
-  dimension: qty_invoiced {
-    type: number
-    sql: ${TABLE}.qty_invoiced ;;
-  }
-
   dimension: qty_ordered {
     type: number
     sql: ${TABLE}.qty_ordered ;;
-  }
-
-  dimension: qty_refunded {
-    type: number
-    sql: ${TABLE}.qty_refunded ;;
-  }
-
-  dimension: qty_shipped {
-    type: number
-    sql: ${TABLE}.qty_shipped ;;
   }
 
   dimension: quote_item_id {
@@ -327,21 +165,6 @@ view: sales_item {
   dimension: recipe {
     type: string
     sql: ${TABLE}.recipe ;;
-  }
-
-  dimension: row_invoiced {
-    type: number
-    sql: ${TABLE}.row_invoiced ;;
-  }
-
-  dimension: row_total {
-    type: number
-    sql: ${TABLE}.row_total ;;
-  }
-
-  dimension: row_total_incl_tax {
-    type: number
-    sql: ${TABLE}.row_total_incl_tax ;;
   }
 
   dimension: row_weight {
@@ -364,31 +187,6 @@ view: sales_item {
     sql: ${TABLE}.subscription_mode ;;
   }
 
-  dimension: tax_amount {
-    type: number
-    sql: ${TABLE}.tax_amount ;;
-  }
-
-  dimension: tax_canceled {
-    type: number
-    sql: ${TABLE}.tax_canceled ;;
-  }
-
-  dimension: tax_invoiced {
-    type: number
-    sql: ${TABLE}.tax_invoiced ;;
-  }
-
-  dimension: tax_percent {
-    type: number
-    sql: ${TABLE}.tax_percent ;;
-  }
-
-  dimension: tax_refunded {
-    type: number
-    sql: ${TABLE}.tax_refunded ;;
-  }
-
   dimension_group: updated {
     type: time
     timeframes: [
@@ -401,11 +199,6 @@ view: sales_item {
       year
     ]
     sql: ${TABLE}.updated_at ;;
-  }
-
-  dimension: weee_tax_applied {
-    type: string
-    sql: ${TABLE}.weee_tax_applied ;;
   }
 
   dimension: weight {
