@@ -10,6 +10,11 @@ explore: sales {
     type: inner
     sql_on: ${sales.entity_id} = ${sales_item.order_id} ;;
   }
+  join: sales_sequence {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${sales.entity_id} = ${sales_sequence.order_id} ;;
+  }
 }
 
 
