@@ -4,7 +4,14 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 # include: "/**/*.view.lkml"                 # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 
-explore: sales {}
+explore: sales {
+   join: sales_item {
+    relationship: one_to_many
+    type: inner
+    sql_on: ${sales.entity_id} = ${sales_item.order_id} ;;
+  }
+}
+
 
 
 # # Select the views that should be a part of this model,
