@@ -15,9 +15,12 @@ explore: sales {
     type: left_outer
     sql_on: ${sales.entity_id} = ${sales_sequence.order_id} ;;
   }
+  join: ga_daily_users {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${sales.created_date} = ${ga_daily_users.date_date} ;;
+  }
 }
-
-
 
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.

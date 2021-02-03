@@ -303,6 +303,4 @@ view: sales {
     # sql: ${TABLE}.base_grand_total ;;
 
   }
-
-
 }
