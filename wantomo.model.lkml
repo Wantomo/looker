@@ -25,6 +25,12 @@ explore: sales {
 explore: ga_daily_users {
 }
 
+explore: daily_kpi_targets {
+}
+
+explore: online_ad_spending {
+}
+
 explore: pet {
   join: pet_sequence {
     relationship: one_to_one
