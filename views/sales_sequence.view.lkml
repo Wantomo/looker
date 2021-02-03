@@ -44,6 +44,7 @@ view: sales_sequence {
   dimension: order_id {
     description: "Unique ID for each order"
     type: number
+    primary_key: yes
     sql: ${TABLE}.order_id ;;
   }
 
@@ -61,7 +62,6 @@ view: sales_sequence {
   measure: count_first_orders {
     label: "Count of first orders"
     type: count
-    sql: ${order_sequence} ;;
     filters: [order_sequence: "1"]
   }
 
@@ -75,7 +75,6 @@ view: sales_sequence {
   measure: count_repeat_orders {
     label: "Count of repeat orders"
     type: count
-    sql: ${order_sequence} ;;
     filters: [order_sequence: ">1"]
   }
 

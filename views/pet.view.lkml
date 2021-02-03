@@ -101,6 +101,11 @@ view: pet {
     sql: ${TABLE}.name ;;
   }
 
+  dimension: owner_id {
+    type: number
+    sql: ${TABLE}.owner_id ;;
+  }
+
   dimension_group: reminded {
     type: time
     timeframes: [
