@@ -308,7 +308,5 @@ view: sales {
     label: "Sales average"
     type: average
     sql: ${base_grand_total} ;;
-    # sql: ${TABLE}.base_grand_total ;;
-
   }
 }
