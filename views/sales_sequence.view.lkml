@@ -6,17 +6,15 @@ view: sales_sequence {
       customer_id,
       created_at,
       base_grand_total,
-      (
-        SELECT
-          COUNT(*)
-        FROM
-          sales AS counter
-        WHERE
-          status IN ('processing', 'pending', 'complete', 'shipped')
-          AND counter.entity_id <= sales.entity_id
-          AND counter.customer_id = sales.customer_id) AS order_sequence
-        FROM sales
-        WHERE status IN ('processing', 'pending', 'complete', 'shipped')
+      ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS order_sequence,
+      CASE
+        WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 1 THEN '1-First Order'
+        WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 2 THEN '2-First Repeat Order'
+        WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) BETWEEN 3 AND 4 THEN '3-Repeater'
+        WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) > 4 THEN '4-Loyal'
+      END AS customer_group
+      FROM sales
+      WHERE status IN ('processing', 'pending', 'complete', 'shipped')
      ;;
   }
 
@@ -54,9 +52,30 @@ view: sales_sequence {
     sql: ${TABLE}.order_sequence ;;
   }
 
+  dimension: customer_group {
+    description: "Customer group"
+    type: string
+    sql: ${TABLE}.customer_group ;;
+  }
+
   dimension: base_grand_total {
     type: number
     sql: ${TABLE}.base_grand_total ;;
+  }
+
+  measure: count {
+    label: "Count"
+    type: count
+  }
+
+  measure: count_distinct {
+    type: count_distinct
+    sql: ${customer_id} ;;
+  }
+
+  measure: max_customer_group {
+    type: string
+    sql: MAX(${customer_group}) ;;
   }
 
   measure: count_first_orders {

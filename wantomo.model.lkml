@@ -38,6 +38,10 @@ explore: pet {
     sql_on: ${pet.pet_id} = ${pet_sequence.pet_id} ;;
   }
 }
+
+explore: sales_rfm_monthly {
+
+}
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.
 #

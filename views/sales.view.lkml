@@ -1,6 +1,5 @@
 view: sales {
-  sql_table_name: `leafy-habitat-174801.looker.sales`
-    ;;
+  sql_table_name: `leafy-habitat-174801.looker.sales`;;
 
   dimension: applied_rule_ids {
     type: string
@@ -288,6 +287,15 @@ view: sales {
   dimension: x_forwarded_for {
     type: string
     sql: ${TABLE}.x_forwarded_for ;;
+  }
+
+  dimension: customer_group {
+  sql: CASE
+    WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 1 THEN '1-First Order'
+    WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 2 THEN '2-First Repeat Order'
+    WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) BETWEEN 3 AND 4 THEN '3-Repeater'
+    WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) > 4 THEN '4-Loyal'
+  END ;;
   }
 
   measure: count {
