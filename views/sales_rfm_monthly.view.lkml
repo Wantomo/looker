@@ -1,15 +1,27 @@
 view: sales_rfm_monthly {
   #Or, you could make this view a derived table, like this:
   derived_table: {
-    sql: SELECT
-            customer_id,
-            TIMESTAMP(CONCAT(EXTRACT(YEAR FROM DATETIME(created_at,"Asia/Tokyo")), '-', LPAD(CAST(EXTRACT(MONTH FROM DATETIME(created_at,"Asia/Tokyo")) AS STRING),2,'0'), '-','01')) as date,
-            count(order_id) as count_order,
-            SUM(base_grand_total) as total,
-            MAX(customer_group) as customer_group,
-            FROM ${sales_sequence.SQL_TABLE_NAME}
-            group by 1, 2
-           ;;
+    sql:  SELECT
+              customer_id,
+              date_formatted as date,
+              count(order_id) as count_order,
+              SUM(base_grand_total) as total,
+              MAX(customer_group) as customer_group,
+              MAX(R) AS R,
+              CASE
+                  WHEN MAX(customer_group) = '1-First Order' AND (MAX(R) > 1 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
+                  WHEN MAX(customer_group) = '2-First Repeat Order'AND (MAX(R) > 1 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
+                  WHEN MAX(customer_group) = '3-Repeater' AND (MAX(R) > 2 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 2 MONTH))
+                  WHEN MAX(customer_group) = '4-Loyal' AND (MAX(R) > 2 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 2 MONTH))
+              END AS potential_churn_date,
+              CASE
+                  WHEN MAX(customer_group) = '3-Repeater' AND (MAX(R) >= 2 OR MAX(R) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
+                  WHEN MAX(customer_group) = '4-Loyal' AND (MAX(R) >= 2 OR MAX(R) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
+              END AS R2,
+              MAX(order_sequence) as order_sequence
+          FROM ${sales_sequence.SQL_TABLE_NAME}
+          group by 1, 2
+          ;;
   }
 
   dimension: customer_id {
@@ -26,11 +38,6 @@ view: sales_rfm_monthly {
       quarter,
       year
     ]
-    sql: ${TABLE}.date ;;
-  }
-
-  dimension: yyyymm {
-    type: string
     sql: ${TABLE}.date ;;
   }
 

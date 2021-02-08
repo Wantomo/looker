@@ -1,20 +1,22 @@
 view: sales_sequence {
-  #Or, you could make this view a derived table, like this:
     derived_table: {
-    sql: SELECT
-      entity_id AS order_id,
-      customer_id,
-      created_at,
-      base_grand_total,
-      ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS order_sequence,
-      CASE
-        WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 1 THEN '1-First Order'
-        WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 2 THEN '2-First Repeat Order'
-        WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) BETWEEN 3 AND 4 THEN '3-Repeater'
-        WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) > 4 THEN '4-Loyal'
-      END AS customer_group
-      FROM sales
-      WHERE status IN ('processing', 'pending', 'complete', 'shipped')
+    sql:  SELECT
+              entity_id AS order_id,
+              customer_id,
+              created_at,
+              base_grand_total,
+              ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS order_sequence,
+              CASE
+                WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 1 THEN '1-First Order'
+                WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 2 THEN '2-First Repeat Order'
+                WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) BETWEEN 3 AND 4 THEN '3-Repeater'
+                WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) > 4 THEN '4-Loyal'
+              END AS customer_group,
+              TIMESTAMP(CONCAT(EXTRACT(YEAR FROM DATETIME(created_at,"Asia/Tokyo")), '-', LPAD(CAST(EXTRACT(MONTH FROM DATETIME(created_at,"Asia/Tokyo")) AS STRING),2,'0'), '-','01')) as date_formatted,
+              DATE_DIFF(DATE(LAG(DATETIME(created_at,"Asia/Tokyo")) OVER (PARTITION BY customer_id ORDER BY entity_id DESC)), DATE(DATETIME(created_at,"Asia/Tokyo")), MONTH) AS R,
+              TIMESTAMP(CONCAT(EXTRACT(YEAR FROM DATE(LAG(DATETIME(created_at,"Asia/Tokyo")) OVER (PARTITION BY customer_id ORDER BY entity_id DESC))), '-', LPAD(CAST(EXTRACT(MONTH FROM DATE(LAG(DATETIME(created_at,"Asia/Tokyo")) OVER (PARTITION BY customer_id ORDER BY entity_id DESC))) AS STRING),2,'0'), '-','01')) as next_order_date_formatted
+          FROM sales
+          WHERE status IN ('processing', 'pending', 'complete', 'shipped')
      ;;
   }
 
