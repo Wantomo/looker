@@ -76,9 +76,34 @@ view: pet {
     sql: ${TABLE}.dob ;;
   }
 
+  dimension: is_sterilized {
+    type: yesno
+    sql:  ${TABLE}.gender = 3 OR ${TABLE}.gender = 4  ;;
+  }
+
   dimension: gender {
-    type: number
-    sql: ${TABLE}.gender ;;
+    type: string
+    sql:  CASE
+              WHEN ${TABLE}.gender = 1 THEN 'Girl'
+              WHEN ${TABLE}.gender = 2 THEN 'Boy'
+              WHEN ${TABLE}.gender = 3 THEN 'Girl'
+              WHEN ${TABLE}.gender = 4 THEN 'Boy'
+          END ;;
+  }
+
+  dimension: age {
+    type: duration_year
+    sql_start: TIMESTAMP(DATETIME(TIMESTAMP_MILLIS(CAST(SUBSTR(SAFE_CAST(UNIX_MILLIS(${TABLE}.dob) AS string),1,13) AS int64)))) ;;
+    sql_end: CURRENT_TIMESTAMP() ;;
+  }
+
+  dimension: age_group {
+    type: string
+    sql:  CASE
+              WHEN ${age} < 1 THEN 'Puppy'
+              WHEN ${age} < 7 THEN 'Adult'
+              ELSE 'Senior'
+          END ;;
   }
 
   dimension: image {
@@ -157,6 +182,18 @@ view: pet {
 
   measure: count {
     type: count
-    drill_fields: [pet_id, name]
+    drill_fields: [pet_id]
+  }
+
+  measure: avg_weight {
+    type: average
+    sql: ${weight} ;;
+    drill_fields: [pet_id]
+  }
+
+  measure: mdn_weight {
+    type: median
+    sql: ${weight} ;;
+    drill_fields: [pet_id]
   }
 }
