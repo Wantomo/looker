@@ -27,6 +27,19 @@ explore: sales {
   }
 }
 
+explore: sales_item {
+  join: pet {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${sales_item.pet_id} = ${pet.pet_id} ;;
+  }
+  join: sales {
+    relationship: many_to_one
+    type: inner
+    sql_on: ${sales_item.order_id} = ${sales.entity_id} ;;
+  }
+}
+
 explore: ga_daily_users {
 }
 
@@ -37,6 +50,11 @@ explore: online_ad_spending {
 }
 
 explore: customer {
+  join: pet {
+    relationship: one_to_many
+    type: left_outer
+    sql_on: ${customer.customer_id} = ${pet.owner_id};;
+  }
 }
 
 explore: pet {
@@ -46,7 +64,7 @@ explore: pet {
     sql_on: ${pet.pet_id} = ${pet_sequence.pet_id} ;;
   }
   join: customer {
-    relationship: one_to_one
+    relationship: many_to_one
     type: left_outer
     sql_on: ${pet.owner_id} = ${customer.customer_id} ;;
   }

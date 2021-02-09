@@ -208,6 +208,12 @@ view: sales_item {
 
   measure: count {
     type: count
-    drill_fields: [name]
+    drill_fields: [sku]
+  }
+
+  measure: cnt_distinct_order {
+    type: count_distinct
+    sql: ${TABLE}.order_id ;;
+    drill_fields: [sku]
   }
 }
