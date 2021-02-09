@@ -106,20 +106,6 @@ view: pet {
     sql: ${TABLE}.owner_id ;;
   }
 
-  dimension_group: reminded {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.reminded_at ;;
-  }
-
   dimension: skin {
     type: number
     sql: ${TABLE}.skin ;;
@@ -157,6 +143,16 @@ view: pet {
   dimension: weight {
     type: number
     sql: ${TABLE}.weight ;;
+  }
+
+  dimension: breed_size {
+    type: number
+    sql: ${TABLE}.breed_size ;;
+  }
+
+  dimension: breed_name {
+    type: string
+    sql: ${TABLE}.breed_name ;;
   }
 
   measure: count {
