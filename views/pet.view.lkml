@@ -196,4 +196,16 @@ view: pet {
     sql: ${weight} ;;
     drill_fields: [pet_id]
   }
+
+  measure: avg_age {
+    type: average
+    sql: ${age} ;;
+    drill_fields: [pet_id]
+  }
+
+  measure: mdn_age {
+    type: median
+    sql: ${age} ;;
+    drill_fields: [pet_id]
+  }
 }
