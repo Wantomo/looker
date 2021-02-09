@@ -15,10 +15,15 @@ explore: sales {
     type: left_outer
     sql_on: ${sales.entity_id} = ${sales_sequence.order_id} ;;
   }
-  join: ga_daily_users {
+  join: sales_utm {
     relationship: one_to_one
     type: left_outer
-    sql_on: ${sales.created_date} = ${ga_daily_users.date_date} ;;
+    sql_on: ${sales.increment_id} = ${sales_utm.order_id} ;;
+  }
+  join: customer {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${sales.customer_id} = ${customer.customer_id} ;;
   }
 }
 
@@ -31,11 +36,19 @@ explore: daily_kpi_targets {
 explore: online_ad_spending {
 }
 
+explore: customer {
+}
+
 explore: pet {
   join: pet_sequence {
     relationship: one_to_one
     type: left_outer
     sql_on: ${pet.pet_id} = ${pet_sequence.pet_id} ;;
+  }
+  join: customer {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${pet.owner_id} = ${customer.customer_id} ;;
   }
 }
 
@@ -43,7 +56,7 @@ explore: sales_rfm_monthly {
 
 }
 
-explore: sales_rfm_accumulative{
+explore: sales_rfm_accumulative {
 
 }
 # # Select the views that should be a part of this model,

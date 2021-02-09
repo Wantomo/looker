@@ -60,6 +60,17 @@ view: sales_rfm_accumulative {
     sql: ${TABLE}.customer_group ;;
   }
 
+  dimension: customer_group_id {
+    type: number
+    sql:  CASE
+              WHEN ${TABLE}.customer_group = '1-First Order' THEN 1
+              WHEN ${TABLE}.customer_group = '2-First Repeat Order' THEN 2
+              WHEN ${TABLE}.customer_group = 'Potential Churn' THEN 3
+              WHEN ${TABLE}.customer_group = '3-Repeater' THEN 4
+              WHEN ${TABLE}.customer_group = '4-Loyal' THEN 5
+          END ;;
+  }
+
   measure: count {
     type: count
   }
