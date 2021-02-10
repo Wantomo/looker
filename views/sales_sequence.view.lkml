@@ -17,7 +17,7 @@ view: sales_sequence {
               DATE_DIFF(DATE(LAG(DATETIME(created_at,"Asia/Tokyo")) OVER (PARTITION BY customer_id ORDER BY entity_id DESC)), DATE(DATETIME(created_at,"Asia/Tokyo")), MONTH) AS R,
               TIMESTAMP(CONCAT(EXTRACT(YEAR FROM DATE(LAG(DATETIME(created_at,"Asia/Tokyo")) OVER (PARTITION BY customer_id ORDER BY entity_id DESC))), '-', LPAD(CAST(EXTRACT(MONTH FROM DATE(LAG(DATETIME(created_at,"Asia/Tokyo")) OVER (PARTITION BY customer_id ORDER BY entity_id DESC))) AS STRING),2,'0'), '-','01')) as next_order_date_formatted
           FROM sales
-          WHERE status IN ('processing', 'pending', 'complete', 'shipped')
+          WHERE status IN ('processing', 'pending', 'complete', 'shipped') and customer_id is not null
      ;;
   }
 

@@ -208,17 +208,16 @@ view: sales_item {
 
   measure: count {
     type: count
-    drill_fields: [sku]
+    drill_fields: [sku, pet_id]
   }
 
-  measure: cnt_distinct_order {
+  measure: unique_order_count {
     type: count_distinct
-    sql: ${TABLE}.order_id ;;
-    drill_fields: [sku]
+    sql: ${order_id} ;;
   }
 
-  measure: count_distinct_pet {
+  measure: unique_pet_count {
     type: count_distinct
-    sql: ${TABLE}.pet_id ;;
+    sql: ${pet_id} ;;
   }
 }

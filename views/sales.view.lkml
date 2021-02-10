@@ -289,22 +289,13 @@ view: sales {
     sql: ${TABLE}.x_forwarded_for ;;
   }
 
-  dimension: customer_group {
-  sql: CASE
-    WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 1 THEN '1-First Order'
-    WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 2 THEN '2-First Repeat Order'
-    WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) BETWEEN 3 AND 4 THEN '3-Repeater'
-    WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) > 4 THEN '4-Loyal'
-  END ;;
-  }
-
   dimension: order_sequence {
     type: number
     description: "Order Sequence (by customer)"
     sql: (
-        SELECT COUNT(*)
-        FROM sales o
-        WHERE o.entity_id <= ${entity_id} AND o.customer_id = ${customer_id} AND ${customer_id} is not null AND ${status} IN ('processing', 'pending', 'complete', 'shipped')) ;;
+        SELECT COUNT(entity_id)
+        FROM (SELECT entity_id, customer_id FROM sales WHERE ${customer_id} is not null AND ${status} IN ('processing', 'pending', 'complete', 'shipped'))
+        WHERE entity_id <= ${entity_id} AND customer_id = ${customer_id}) ;;
   }
 
   dimension: order_segment {
@@ -318,17 +309,25 @@ view: sales {
           END ;;
   }
 
+  dimension: customer_segment {
+  description: "Customer Segment : 1st (1 order), 1st Repeat (2 orders), Repeater (3 to 4 orders), Loyal (5 and more orders)"
+  sql:  CASE
+            WHEN ${order_sequence} = 1 THEN '1-First Order'
+            WHEN ${order_sequence} = 2 THEN '2-First Repeat Order'
+            WHEN ${order_sequence} BETWEEN 3 AND 4 THEN '3-Repeater'
+            WHEN ${order_sequence} > 4 THEN '4-Loyal'
+        END ;;
+  }
+
   measure: count {
     type: count
-    drill_fields: [customer_firstname, coupon_rule_name, customer_lastname, store_name]
+    drill_fields: [customer_id, customer_email, customer_firstname, customer_lastname, entity_id, increment_id, order_sequence, created_date, status]
   }
 
   measure: total_sales {
     label: "Sales Total"
-    description: "this is the total sales for.."
     type: sum
     sql: ${base_grand_total} ;;
-    # sql: ${TABLE}.base_grand_total ;;
 
   }
 
