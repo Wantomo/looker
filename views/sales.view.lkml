@@ -298,6 +298,26 @@ view: sales {
   END ;;
   }
 
+  dimension: order_sequence {
+    type: number
+    description: "Order Sequence (by customer)"
+    sql: (
+        SELECT COUNT(*)
+        FROM sales o
+        WHERE o.entity_id <= ${entity_id} AND o.customer_id = ${customer_id} AND ${customer_id} is not null AND ${status} IN ('processing', 'pending', 'complete', 'shipped')) ;;
+  }
+
+  dimension: order_segment {
+    type: string
+    description: "Order Segment : 1st vs Repeat, Regular vs Subscription"
+    sql:  CASE
+              WHEN ${order_sequence} = 1 AND ${is_subscription} = 0 THEN '1-First Order Regular'
+              WHEN ${order_sequence} = 1 AND ${is_subscription} = 1 THEN '2-First Order Subscription'
+              WHEN ${order_sequence} > 1 AND ${is_subscription} = 0 THEN '3-Repeat Order Regular'
+              WHEN ${order_sequence} > 1 AND ${is_subscription} = 1 THEN '4-Repeat Order Subscription'
+          END ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [customer_firstname, coupon_rule_name, customer_lastname, store_name]
