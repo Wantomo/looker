@@ -216,4 +216,9 @@ view: sales_item {
     sql: ${TABLE}.order_id ;;
     drill_fields: [sku]
   }
+
+  measure: count_distinct_pet {
+    type: count_distinct
+    sql: ${TABLE}.pet_id ;;
+  }
 }

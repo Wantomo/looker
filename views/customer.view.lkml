@@ -63,8 +63,47 @@ view: customer {
     sql: ${TABLE}.telephone ;;
   }
 
+  dimension: total_order_amount {
+    type: number
+    sql: (SELECT SUM(base_grand_total) FROM ${sales_sequence.SQL_TABLE_NAME} o WHERE o.customer_id=customer.customer_id ) ;;
+  }
+
+  dimension: first_order_campaign {
+    type: string
+    sql: (SELECT campaign FROM ${sales_sequence.SQL_TABLE_NAME} o LEFT JOIN ${sales_utm.SQL_TABLE_NAME} u ON o.real_order_id = u.id WHERE order_sequence = 1 AND o.customer_id=customer.customer_id ) ;;
+  }
+
+  dimension: first_order_source {
+    type: string
+    sql: (SELECT source FROM ${sales_sequence.SQL_TABLE_NAME} o LEFT JOIN ${sales_utm.SQL_TABLE_NAME} u ON o.real_order_id = u.id WHERE order_sequence = 1 AND o.customer_id=customer.customer_id ) ;;
+  }
+
+  dimension: first_order_medium {
+    type: string
+    sql: (SELECT medium FROM ${sales_sequence.SQL_TABLE_NAME} o LEFT JOIN ${sales_utm.SQL_TABLE_NAME} u ON o.real_order_id = u.id WHERE order_sequence = 1 AND o.customer_id=customer.customer_id ) ;;
+  }
+
+  dimension_group: first_order_date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: (SELECT ${created_date} FROM sales_sequence o WHERE order_sequence = 1 AND o.customer_id=customer.customer_id ) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [customer_id, firstname, lastname]
+  }
+
+  measure: sum_total_order_amount {
+    type: sum
+    sql: ${total_order_amount} ;;
   }
 }

@@ -2,6 +2,7 @@ view: sales_sequence {
     derived_table: {
     sql:  SELECT
               entity_id AS order_id,
+              increment_id AS real_order_id,
               customer_id,
               created_at,
               base_grand_total,
@@ -45,6 +46,12 @@ view: sales_sequence {
     description: "Unique ID for each order"
     type: number
     primary_key: yes
+    sql: ${TABLE}.order_id ;;
+  }
+
+  dimension: real_order_id {
+    description: "Real order ID for each order"
+    type: number
     sql: ${TABLE}.order_id ;;
   }
 

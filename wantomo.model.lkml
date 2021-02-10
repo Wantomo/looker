@@ -55,6 +55,11 @@ explore: customer {
     type: left_outer
     sql_on: ${customer.customer_id} = ${pet.owner_id};;
   }
+  join: sales {
+    relationship: one_to_many
+    type: inner
+    sql_on: ${customer.customer_id} = ${sales.customer_id};;
+  }
 }
 
 explore: pet {
@@ -67,6 +72,12 @@ explore: pet {
     relationship: many_to_one
     type: left_outer
     sql_on: ${pet.owner_id} = ${customer.customer_id} ;;
+  }
+  join: sales_item {
+    relationship: one_to_many
+    type: inner
+    sql_on: ${pet.pet_id} = ${sales_item.order_id} ;;
+
   }
 }
 
