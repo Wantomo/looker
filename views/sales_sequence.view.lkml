@@ -86,30 +86,4 @@ view: sales_sequence {
     type: string
     sql: MAX(${customer_group}) ;;
   }
-
-  measure: count_first_orders {
-    label: "Count of first orders"
-    type: count
-    filters: [order_sequence: "1"]
-  }
-
-  measure: sum_first_orders {
-    label: "Sum of first orders"
-    type: sum
-    sql: ${base_grand_total} ;;
-    filters: [order_sequence: "1"]
-  }
-
-  measure: count_repeat_orders {
-    label: "Count of repeat orders"
-    type: count
-    filters: [order_sequence: ">1"]
-  }
-
-  measure: sum_repeat_orders {
-    label: "Sum of repeat orders"
-    type: sum
-    sql: ${base_grand_total} ;;
-    filters: [order_sequence: ">1"]
-  }
 }

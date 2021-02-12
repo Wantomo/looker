@@ -46,6 +46,7 @@ view: sales_rfm_accumulative {
       year
     ]
     sql: ${TABLE}.date ;;
+    convert_tz: no
   }
 
   dimension: customer_id {

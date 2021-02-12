@@ -39,6 +39,7 @@ view: sales_rfm_monthly {
       year
     ]
     sql: ${TABLE}.date ;;
+    convert_tz: no
   }
 
   dimension: count_order {
