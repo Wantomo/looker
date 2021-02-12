@@ -212,11 +212,16 @@ view: sales_item {
   }
 
   measure: total_sales {
-    label: "Sales Total"
     description: "Total is calculated at the product level, no discount applied."
     type: sum
     sql: ${base_row_total_incl_tax} ;;
     drill_fields: [sku, pet_id]
+  }
+
+  measure: total_qty {
+    description: "Total quantity of product sold."
+    type: sum
+    sql: ${qty_ordered} ;;
   }
 
   measure: unique_order_count {
