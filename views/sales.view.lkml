@@ -298,6 +298,44 @@ view: sales {
         WHERE entity_id <= ${entity_id} AND customer_id = ${customer_id}) ;;
   }
 
+  dimension: qty_of_800g {
+    type: number
+    description: "Quantity of 800g of an order"
+    sql: (
+        SELECT IF(qty_ordered IS NOT NULL, qty_ordered, 0) as qty_ordered
+        FROM (SELECT SUM(qty_ordered) as qty_ordered, entity_id FROM sales JOIN sales_item ON sales.entity_id = sales_item.order_id WHERE SKU in ('FP-C-S-800', 'FP-B-S-800') GROUP BY entity_id)
+        WHERE entity_id = ${entity_id}) ;;
+  }
+
+  dimension: qty_of_beef {
+    type: number
+    description: "Quantity of beef product of an order"
+    sql: (
+        SELECT IF(qty_ordered IS NOT NULL, qty_ordered, 0) as qty_ordered
+        FROM (SELECT SUM(qty_ordered) as qty_ordered, entity_id FROM sales JOIN sales_item ON sales.entity_id = sales_item.order_id WHERE SKU in ('FP-B-S-150', 'FP-B-S-800') GROUP BY entity_id)
+        WHERE entity_id = ${entity_id}) ;;
+  }
+
+  dimension: qty_of_chicken {
+    type: number
+    description: "Quantity of chicken product of an order"
+    sql: (
+        SELECT IF(qty_ordered IS NOT NULL, qty_ordered, 0) as qty_ordered
+        FROM (SELECT SUM(qty_ordered) as qty_ordered, entity_id FROM sales JOIN sales_item ON sales.entity_id = sales_item.order_id WHERE SKU in ('FP-C-S-150', 'FP-C-S-800') GROUP BY entity_id)
+        WHERE entity_id = ${entity_id}) ;;
+  }
+
+  dimension: meat_type {
+    type: string
+    label: "Order Meat Type"
+    description: "Order type based on the meat"
+    sql:  CASE
+              WHEN ${qty_of_chicken} is null AND ${qty_of_beef} >= 1 THEN 'beef'
+              WHEN ${qty_of_chicken} >= 1 AND ${qty_of_beef} is null THEN 'chicken'
+              WHEN ${qty_of_chicken} >= 1 AND ${qty_of_beef} >= 1 THEN 'mixed'
+          END ;;
+  }
+
   dimension: order_segment {
     type: string
     description: "Order Segment : 1st vs Repeat, Regular vs Subscription"
@@ -321,18 +359,17 @@ view: sales {
 
   measure: count {
     type: count
-    drill_fields: [customer_id, customer_email, customer_firstname, customer_lastname, entity_id, increment_id, order_sequence, created_date, status]
+    drill_fields: [customer_id, customer_email, customer_firstname, customer_lastname, entity_id, increment_id, order_sequence, created_date, status, qty_of_chicken, qty_of_beef]
   }
 
   measure: total_sales {
     label: "Sales Total"
     type: sum
     sql: ${base_grand_total} ;;
-
   }
 
   measure: avg_sales {
-    label: "Sales average"
+    label: "Sales Average"
     type: average
     sql: ${base_grand_total} ;;
     value_format: "0"
