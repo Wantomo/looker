@@ -9,11 +9,6 @@ view: subscription {
     sql: ${TABLE}.id ;;
   }
 
-  dimension: base_grand_total {
-    type: number
-    sql: ${TABLE}.base_grand_total ;;
-  }
-
   dimension_group: canceled {
     type: time
     timeframes: [
@@ -169,18 +164,5 @@ view: subscription {
   measure: count {
     type: count
     drill_fields: [id, customer_id, quote_id]
-  }
-
-  measure: total_sales {
-    label: "Sales Total"
-    type: sum
-    sql: ${base_grand_total} ;;
-  }
-
-  measure: avg_sales {
-    label: "Sales Average"
-    type: average
-    sql: ${base_grand_total} ;;
-    value_format: "0"
   }
 }
