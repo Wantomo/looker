@@ -77,7 +77,24 @@ explore: pet {
     relationship: one_to_many
     type: inner
     sql_on: ${pet.pet_id} = ${sales_item.order_id} ;;
+  }
+}
 
+explore: subscription {
+  join: customer {
+    relationship: one_to_one
+    type: inner
+    sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
+  }
+  join: quote {
+    relationship: one_to_one
+    type: inner
+    sql_on: ${subscription.quote_id} = ${quote.entity_id} ;;
+  }
+  join: quote_item {
+    relationship: one_to_many
+    type: inner
+    sql_on: ${subscription.quote_id} = ${quote_item.quote_id} ;;
   }
 }
 
