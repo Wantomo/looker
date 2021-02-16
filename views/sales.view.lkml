@@ -88,6 +88,7 @@ view: sales {
   }
 
   dimension_group: created {
+    label: "Date of Order"
     type: time
     timeframes: [
       raw,
@@ -291,7 +292,14 @@ view: sales {
   }
 
   measure: count {
+    label: "Count of Order"
     type: count
+  }
+
+  measure: unique_user_count {
+    label: "Unique Count of Order By Customer"
+    type: count_distinct
+    sql: ${customer_id} ;;
   }
 
   measure: total_sales {
