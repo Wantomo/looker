@@ -1,10 +1,26 @@
 view: customer_sales {
   derived_table: {
     sql:  SELECT
-              customer_id,
-              SUM(base_grand_total) as lifetime_sales,
-              MIN(created_at) as first_order_date
-          FROM ${sales.SQL_TABLE_NAME}
+            customer_id,
+            SUM(base_grand_total) AS lifetime_sales,
+            MIN(created_at) AS first_order_date,
+            ANY_VALUE(first_order_campaign) AS first_order_campaign,
+            ANY_VALUE(first_order_medium) AS first_order_medium,
+            ANY_VALUE(first_order_source) AS first_order_source,
+            CONCAT(ANY_VALUE(first_order_source), '/', ANY_VALUE(first_order_medium)) AS first_order_source_medium,
+            ANY_VALUE(first_order_real_id) AS first_order_real_id
+          FROM
+            (
+              SELECT
+                *,
+                FIRST_VALUE(campaign) OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS first_order_campaign,
+                FIRST_VALUE(medium) OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS first_order_medium,
+                FIRST_VALUE(source) OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS first_order_source,
+                FIRST_VALUE(increment_id) OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS first_order_real_id,
+              FROM
+                ${sales.SQL_TABLE_NAME}
+              LEFT JOIN ${sales_utm.SQL_TABLE_NAME} ON ${sales.SQL_TABLE_NAME}.increment_id = ${sales_utm.SQL_TABLE_NAME}.id
+            )
           WHERE status IN ('processing', 'pending', 'complete', 'shipped')
           GROUP BY 1
      ;;
@@ -29,6 +45,26 @@ view: customer_sales {
       year
     ]
     sql: ${TABLE}.first_order_date ;;
+  }
+
+  dimension: first_order_campaign {
+    type: string
+    sql: ${TABLE}.first_order_campaign ;;
+  }
+
+  dimension: first_order_medium {
+    type: string
+    sql: ${TABLE}.first_order_medium ;;
+  }
+
+  dimension: first_order_source {
+    type: string
+    sql: ${TABLE}.first_order_source ;;
+  }
+
+  dimension: first_order_source_medium {
+    type: string
+    sql: ${TABLE}.first_order_source_medium ;;
   }
 
   dimension: lifetime_sales {
