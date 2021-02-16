@@ -5,7 +5,7 @@ view: sales_rfm_accumulative {
             potential_churn_date AS date,
             NULL as count_order,
             NULL as total,
-            'Potential Churn' AS customer_group,
+            'Potential Churn' AS customer_segment,
             NULL AS R,
             R2
           FROM ${sales_rfm_monthly.SQL_TABLE_NAME}
@@ -18,7 +18,7 @@ view: sales_rfm_accumulative {
                 date,
                 count_order,
                 total,
-                customer_group,
+                customer_segment,
                 R,
                 R2
               FROM ${sales_rfm_monthly.SQL_TABLE_NAME}
@@ -30,7 +30,7 @@ view: sales_rfm_accumulative {
                 R2 as date,
                 count_order,
                 total,
-                customer_group,
+                customer_segment,
                 R,
                 R2
               FROM ${sales_rfm_monthly.SQL_TABLE_NAME}
@@ -56,19 +56,19 @@ view: sales_rfm_accumulative {
     sql: ${TABLE}.customer_id ;;
   }
 
-  dimension: customer_group {
+  dimension: customer_segment {
     type: string
-    sql: ${TABLE}.customer_group ;;
+    sql: ${TABLE}.customer_segment ;;
   }
 
-  dimension: customer_group_id {
+  dimension: customer_segment_id {
     type: number
     sql:  CASE
-              WHEN ${TABLE}.customer_group = '1-First Order' THEN 1
-              WHEN ${TABLE}.customer_group = '2-First Repeat Order' THEN 2
-              WHEN ${TABLE}.customer_group = 'Potential Churn' THEN 3
-              WHEN ${TABLE}.customer_group = '3-Repeater' THEN 4
-              WHEN ${TABLE}.customer_group = '4-Loyal' THEN 5
+              WHEN ${TABLE}.customer_segment = '1-First Order' THEN 1
+              WHEN ${TABLE}.customer_segment = '2-First Repeat Order' THEN 2
+              WHEN ${TABLE}.customer_segment = 'Potential Churn' THEN 3
+              WHEN ${TABLE}.customer_segment = '3-Repeater' THEN 4
+              WHEN ${TABLE}.customer_segment = '4-Loyal' THEN 5
           END ;;
   }
 

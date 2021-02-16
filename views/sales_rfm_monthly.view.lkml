@@ -6,20 +6,20 @@ view: sales_rfm_monthly {
               date_formatted as date,
               count(order_id) as count_order,
               SUM(base_grand_total) as total,
-              MAX(customer_group) as customer_group,
+              MAX(customer_segment) as customer_segment,
               MAX(R) AS R,
               CASE
-                  WHEN MAX(customer_group) = '1-First Order' AND (MAX(R) > 1 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
-                  WHEN MAX(customer_group) = '2-First Repeat Order'AND (MAX(R) > 1 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
-                  WHEN MAX(customer_group) = '3-Repeater' AND (MAX(R) > 2 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 2 MONTH))
-                  WHEN MAX(customer_group) = '4-Loyal' AND (MAX(R) > 2 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 2 MONTH))
+                  WHEN MAX(customer_segment) = '1-First Order' AND (MAX(R) > 1 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
+                  WHEN MAX(customer_segment) = '2-First Repeat Order'AND (MAX(R) > 1 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
+                  WHEN MAX(customer_segment) = '3-Repeater' AND (MAX(R) > 2 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 2 MONTH))
+                  WHEN MAX(customer_segment) = '4-Loyal' AND (MAX(R) > 2 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 2 MONTH))
               END AS potential_churn_date,
               CASE
-                  WHEN MAX(customer_group) = '3-Repeater' AND (MAX(R) >= 2 OR MAX(R) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
-                  WHEN MAX(customer_group) = '4-Loyal' AND (MAX(R) >= 2 OR MAX(R) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
+                  WHEN MAX(customer_segment) = '3-Repeater' AND (MAX(R) >= 2 OR MAX(R) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
+                  WHEN MAX(customer_segment) = '4-Loyal' AND (MAX(R) >= 2 OR MAX(R) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
               END AS R2,
               MAX(order_sequence) as order_sequence
-          FROM ${sales_sequence.SQL_TABLE_NAME}
+          FROM ${sales_sequence.SQL_TABLE_NAME} WHERE customer_id is not null
           group by 1, 2
           ;;
   }
@@ -52,9 +52,9 @@ view: sales_rfm_monthly {
     sql: ${TABLE}.total ;;
   }
 
-  dimension: customer_group {
+  dimension: customer_segment {
     type: string
-    sql: ${TABLE}.customer_group ;;
+    sql: ${TABLE}.customer_segment ;;
   }
 
   measure: count {

@@ -7,36 +7,38 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 explore: sales {
    join: sales_item {
     relationship: one_to_many
-    type: inner
     sql_on: ${sales.entity_id} = ${sales_item.order_id} ;;
   }
   join: sales_sequence {
     relationship: one_to_one
-    type: left_outer
     sql_on: ${sales.entity_id} = ${sales_sequence.order_id} ;;
   }
   join: sales_utm {
     relationship: one_to_one
-    type: left_outer
     sql_on: ${sales.increment_id} = ${sales_utm.order_id} ;;
   }
   join: customer {
     relationship: one_to_one
-    type: left_outer
     sql_on: ${sales.customer_id} = ${customer.customer_id} ;;
+  }
+  join: sales_group_by_meat {
+    relationship: one_to_one
+    sql_on: ${sales.entity_id}=${sales_group_by_meat.entity_id} ;;
   }
 }
 
 explore: sales_item {
   join: pet {
     relationship: one_to_one
-    type: left_outer
     sql_on: ${sales_item.pet_id} = ${pet.pet_id} ;;
   }
   join: sales {
     relationship: many_to_one
-    type: inner
     sql_on: ${sales_item.order_id} = ${sales.entity_id} ;;
+  }
+  join: sales_group_by_meat {
+    relationship: many_to_one
+    sql_on: ${sales_item.order_id} = ${sales_group_by_meat.entity_id} ;;
   }
 }
 
