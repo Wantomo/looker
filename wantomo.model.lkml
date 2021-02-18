@@ -21,6 +21,10 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${sales.customer_id} = ${customer.customer_id} ;;
   }
+  join: customer_sales {
+    relationship: one_to_one
+    sql_on: ${sales.customer_id} = ${customer_sales.customer_id} ;;
+  }
   join: sales_group_by_meat {
     relationship: one_to_one
     sql_on: ${sales.entity_id}=${sales_group_by_meat.entity_id} ;;
@@ -35,6 +39,10 @@ explore: sales_item {
   join: sales {
     relationship: many_to_one
     sql_on: ${sales_item.order_id} = ${sales.entity_id} ;;
+  }
+  join: sales_sequence {
+    relationship: many_to_one
+    sql_on: ${sales_item.order_id} = ${sales_sequence.order_id} ;;
   }
   join: sales_group_by_meat {
     relationship: many_to_one

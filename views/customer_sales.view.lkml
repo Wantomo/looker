@@ -76,4 +76,10 @@ view: customer_sales {
     type: sum
     sql: ${lifetime_sales} ;;
   }
+
+  measure: avg_lifetime_sales {
+    type: average
+    sql: ${lifetime_sales} ;;
+    value_format: "0"
+  }
 }
