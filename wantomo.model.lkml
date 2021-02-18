@@ -68,6 +68,10 @@ explore: customer {
     relationship: one_to_many
     sql_on: ${customer.customer_id} = ${sales.customer_id};;
   }
+  join: sales_sequence {
+    relationship: one_to_one
+    sql_on: ${sales.entity_id} = ${sales_sequence.order_id} ;;
+  }
   join: customer_sales {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${customer_sales.customer_id};;
@@ -89,6 +93,14 @@ explore: pet {
     relationship: one_to_many
     type: inner
     sql_on: ${pet.pet_id} = ${sales_item.order_id} ;;
+  }
+  join: sales {
+    relationship: many_to_one
+    sql_on: ${sales_item.order_id} = ${sales.entity_id} ;;
+  }
+  join: sales_sequence {
+    relationship: many_to_one
+    sql_on: ${sales_item.order_id} = ${sales_sequence.order_id} ;;
   }
 }
 
