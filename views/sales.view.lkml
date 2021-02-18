@@ -203,7 +203,7 @@ view: sales {
   }
 
   dimension: is_subscription {
-    type: number
+    type: yesno
     sql: ${TABLE}.is_subscription ;;
   }
 
