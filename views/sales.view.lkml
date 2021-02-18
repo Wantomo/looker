@@ -204,7 +204,7 @@ view: sales {
 
   dimension: is_subscription {
     type: yesno
-    sql: ${TABLE}.is_subscription ;;
+    sql: ${TABLE}.is_subscription = 1 ;;
   }
 
   dimension: is_virtual {
