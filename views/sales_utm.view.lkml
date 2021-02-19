@@ -6,17 +6,12 @@ view: sales_utm {
   dimension: order_id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.id ;;
+    sql: ${TABLE}.transactionid ;;
   }
 
-  dimension: campaign {
+  dimension: source {
     type: string
-    sql: ${TABLE}.campaign ;;
-  }
-
-  dimension: keyword {
-    type: string
-    sql: ${TABLE}.keyword ;;
+    sql: ${TABLE}.source ;;
   }
 
   dimension: medium {
@@ -24,9 +19,34 @@ view: sales_utm {
     sql: ${TABLE}.medium ;;
   }
 
-  dimension: source {
+  dimension: campaign {
     type: string
-    sql: ${TABLE}.source ;;
+    sql: ${TABLE}.campaign ;;
+  }
+
+  dimension: channel {
+    type: string
+    sql: ${TABLE}.channelgrouping ;;
+  }
+
+  dimension: source_medium {
+    type: string
+    sql: ${TABLE}.source_medium ;;
+  }
+
+  dimension: source_medium_channel {
+    type: string
+    sql: ${TABLE}.source_medium_channelgrouping ;;
+  }
+
+  dimension: longitude {
+    type: string
+    sql: ${TABLE}.longitude ;;
+  }
+
+  dimension: latitude {
+    type: string
+    sql: ${TABLE}.latitude ;;
   }
 
   dimension_group: date {
