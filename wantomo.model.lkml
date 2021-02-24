@@ -5,6 +5,7 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 
 explore: sales {
+  sql_always_where: ${created_date} >= '2017-04-01' ;;
    join: sales_item {
     relationship: one_to_many
     sql_on: ${sales.entity_id} = ${sales_item.order_id} ;;
@@ -48,6 +49,7 @@ explore: sales_item {
     relationship: many_to_one
     sql_on: ${sales_item.order_id} = ${sales_group_by_meat.entity_id} ;;
   }
+  sql_always_where: ${created_date} >= '2017-04-01' ;;
 }
 
 explore: ga_daily_users {
