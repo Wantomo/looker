@@ -124,6 +124,10 @@ explore: sales_rfm_monthly {
 explore: sales_rfm_accumulative {
 
 }
+
+explore: funnel_first_visit {
+
+}
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.
 #
