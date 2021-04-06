@@ -17,6 +17,75 @@ view: funnel_first_visit {
     sql: ${TABLE}.campaign_source ;;
   }
 
+  dimension: campaign_term {
+    type: string
+    sql: ${TABLE}.campaign_term ;;
+  }
+
+  dimension: first_page {
+    type: string
+    sql: ${TABLE}.first_page ;;
+  }
+
+  dimension: first_website {
+    type: string
+    sql: ${TABLE}.first_website ;;
+  }
+
+  dimension: acquisition_source {
+    type: string
+    sql: CASE
+          WHEN ${campaign_source} = 'google' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'search' AND ${campaign_term} = 'brand' THEN 'Google_Search_Brand'
+          WHEN ${campaign_source} = 'google' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'search' AND ${campaign_term} = 'breed' THEN 'Google_Search_Breed'
+          WHEN ${campaign_source} = 'google' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'search' AND ${campaign_term} = 'broad' THEN 'Google_Search_Broad'
+          WHEN ${campaign_source} = 'google' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'display' AND ${campaign_term} = 'audience' THEN 'Google_Display_Audience'
+          WHEN ${campaign_source} = 'yahoo' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'search' AND ${campaign_term} = 'brand' THEN 'Yahoo_Search_Brand'
+          WHEN ${campaign_source} = 'yahoo' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'search' AND ${campaign_term} = 'breed' THEN 'Yahoo_Search_Breed'
+          WHEN ${campaign_source} = 'yahoo' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'search' AND ${campaign_term} = 'broad' THEN 'Yahoo_Search_Broad'
+          WHEN ${campaign_source} = 'yahoo' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'display' AND ${campaign_term} = 'audience' THEN 'Yahoo_Display_Audience'
+          WHEN ${campaign_source} = 'line' AND ${campaign_medium} = 'cpc' THEN 'LINE'
+          WHEN ${campaign_source} = 'facebook' AND ${campaign_medium} = 'cpc' AND ${campaign_name} LIKE '%ls_%' THEN 'Facebook_Leads'
+          WHEN ${campaign_source} = 'facebook' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'leads' THEN 'Facebook_Leads'
+          WHEN ${campaign_source} = 'facebook' AND ${campaign_medium} = 'cpc' AND ${campaign_name} LIKE '%cv_%' THEN 'Facebook_Conversion'
+          WHEN ${campaign_source} = 'facebook' AND ${campaign_medium} = 'cpc' AND ${campaign_name} = 'conversion' THEN 'Facebook_Conversion'
+          WHEN ${campaign_source} = 'google' AND ${campaign_medium} = 'organic' THEN 'Google_organic'
+          WHEN ${campaign_source} = 'yahoo' AND ${campaign_medium} = 'organic' THEN 'Yahoo_organic'
+          WHEN ${campaign_source} = 'direct' AND ${campaign_medium} = 'none' THEN 'Direct_none'
+          WHEN ${campaign_source} = 'direct' AND ${campaign_medium} = 'none' THEN 'Direct_none'
+          WHEN ${campaign_source} = 'klaviyo' AND ${campaign_medium} = 'email' THEN 'Klaviyo_email'
+          WHEN ${campaign_source} = 'instagram' AND ${campaign_medium} = 'profile' THEN 'Instagram_profile'
+        END ;;
+  }
+
+  dimension: dummy_three {
+    case: {
+      when: {
+        label: "1st page"
+        sql: 1=1 ;;
+      }
+      when: {
+        label: "Karte page"
+        sql: 1=1 ;;
+      }
+      when: {
+        label: "Lead"
+        sql: 1=1 ;;
+      }
+      when: {
+        label: "Karte Completed"
+        sql: 1=1 ;;
+      }
+      when: {
+        label: "Cart"
+        sql: 1=1 ;;
+      }
+      when: {
+        label: "Order"
+        sql: 1=1 ;;
+      }
+    }
+  }
+
   dimension_group: cart_viewed {
     type: time
     timeframes: [

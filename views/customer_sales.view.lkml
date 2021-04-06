@@ -30,7 +30,6 @@ view: customer_sales {
                 ${sales.SQL_TABLE_NAME}
               LEFT JOIN ${sales_utm.SQL_TABLE_NAME} ON ${sales.SQL_TABLE_NAME}.increment_id = ${sales_utm.SQL_TABLE_NAME}.transactionid
             )
-          WHERE status IN ('processing', 'pending', 'complete', 'shipped')
           GROUP BY 1
      ;;
   }
