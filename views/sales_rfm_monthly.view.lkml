@@ -1,26 +1,41 @@
 view: sales_rfm_monthly {
-  #Or, you could make this view a derived table, like this:
+  drill_fields: [order_detail*]
   derived_table: {
+    # Built for monthly RFM analysis. Only includes orders for the month (R0 = current month)
+    # Grouped by customer_id (= distinct). If multiple orders are made same month, MAX segment is used
     sql:  SELECT
+            customer_id,
+            date,
+            count(order_id) as count_order,
+            SUM(base_grand_total) as total,
+            MAX(customer_segment) as customer_segment,
+            MAX(recency) AS order_recency,
+            -- For churn rate : following month for F1/F2, 2 months after from F3
+            CASE
+                WHEN MAX(customer_segment) = '1-First Order' AND (MAX(recency) > 1 OR MAX(recency) IS NULL OR MAX(recency) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date), INTERVAL 1 MONTH))
+                WHEN MAX(customer_segment) = '2-First Repeat Order'AND (MAX(recency) > 1 OR MAX(recency) IS NULL OR MAX(recency) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date), INTERVAL 1 MONTH))
+                WHEN MAX(customer_segment) = '3-Repeater' AND (MAX(recency) > 2 OR MAX(recency) IS NULL OR MAX(recency) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date), INTERVAL 2 MONTH))
+                WHEN MAX(customer_segment) = '4-Loyal' AND (MAX(recency) > 2 OR MAX(recency) IS NULL OR MAX(recency) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date), INTERVAL 2 MONTH))
+            END AS potential_churn_date,
+            -- For accumulative : add following month (from F3)
+            CASE
+                WHEN MAX(customer_segment) = '3-Repeater' AND (MAX(recency) >= 2 OR MAX(recency) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date), INTERVAL 1 MONTH))
+                WHEN MAX(customer_segment) = '4-Loyal' AND (MAX(recency) >= 2 OR MAX(recency) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date), INTERVAL 1 MONTH))
+            END AS R2,
+            MAX(order_sequence) as order_sequence
+          FROM (
+            SELECT
               customer_id,
-              date_formatted as date,
-              count(order_id) as count_order,
-              SUM(base_grand_total) as total,
-              MAX(customer_segment) as customer_segment,
-              MAX(R) AS R,
-              CASE
-                  WHEN MAX(customer_segment) = '1-First Order' AND (MAX(R) > 1 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
-                  WHEN MAX(customer_segment) = '2-First Repeat Order'AND (MAX(R) > 1 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
-                  WHEN MAX(customer_segment) = '3-Repeater' AND (MAX(R) > 2 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 2 MONTH))
-                  WHEN MAX(customer_segment) = '4-Loyal' AND (MAX(R) > 2 OR MAX(R) IS NULL OR MAX(R) = 0) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 2 MONTH))
-              END AS potential_churn_date,
-              CASE
-                  WHEN MAX(customer_segment) = '3-Repeater' AND (MAX(R) >= 2 OR MAX(R) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
-                  WHEN MAX(customer_segment) = '4-Loyal' AND (MAX(R) >= 2 OR MAX(R) IS NULL) THEN TIMESTAMP(DATE_ADD(DATE(date_formatted), INTERVAL 1 MONTH))
-              END AS R2,
-              MAX(order_sequence) as order_sequence
-          FROM ${sales_sequence.SQL_TABLE_NAME} WHERE customer_id is not null
-          group by 1, 2
+              TIMESTAMP_TRUNC(created_at, MONTH) as date,
+              order_id,
+              base_grand_total,
+              customer_segment,
+              DATE_DIFF(DATE(LAG(DATETIME(created_at)) OVER (PARTITION BY customer_id ORDER BY order_id DESC)), DATE(DATETIME(created_at)), MONTH) AS recency,
+              order_sequence
+              FROM ${sales_sequence.SQL_TABLE_NAME}
+              WHERE customer_id is not null
+          )
+          GROUP BY 1, 2
           ;;
   }
 
@@ -40,6 +55,18 @@ view: sales_rfm_monthly {
     ]
     sql: ${TABLE}.date ;;
     convert_tz: no
+  }
+
+  dimension: order_recency {
+    description: "order_recency"
+    type: number
+    sql: ${TABLE}.order_recency ;;
+  }
+
+  dimension: order_sequence {
+    description: "Sequence of order per customer"
+    type: number
+    sql: ${TABLE}.order_sequence ;;
   }
 
   dimension: count_order {
@@ -74,5 +101,9 @@ view: sales_rfm_monthly {
   measure: sum_count_order {
     type: sum
     sql: ${count_order} ;;
+  }
+
+  set: order_detail {
+    fields: [customer_id, date_month, order_sequence]
   }
 }

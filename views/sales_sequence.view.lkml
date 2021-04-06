@@ -1,25 +1,32 @@
 view: sales_sequence {
     derived_table: {
-    sql:  SELECT
-              entity_id AS order_id,
-              increment_id AS real_order_id,
+      # Sequence orders and create Segments
+      sql:  SELECT
+              order_id,
+              real_order_id,
               customer_id,
               created_at,
               base_grand_total,
               is_subscription,
-              ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS order_sequence,
+              order_sequence,
               CASE
-                WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 1 THEN '1-First Order'
-                WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) = 2 THEN '2-First Repeat Order'
-                WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) BETWEEN 3 AND 4 THEN '3-Repeater'
-                WHEN ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) > 4 THEN '4-Loyal'
-              END AS customer_segment,
-              TIMESTAMP(CONCAT(EXTRACT(YEAR FROM DATETIME(created_at,"Asia/Tokyo")), '-', LPAD(CAST(EXTRACT(MONTH FROM DATETIME(created_at,"Asia/Tokyo")) AS STRING),2,'0'), '-','01')) as date_formatted,
-              DATE_DIFF(DATE(LAG(DATETIME(created_at,"Asia/Tokyo")) OVER (PARTITION BY customer_id ORDER BY entity_id DESC)), DATE(DATETIME(created_at,"Asia/Tokyo")), MONTH) AS R,
-              TIMESTAMP(CONCAT(EXTRACT(YEAR FROM DATE(LAG(DATETIME(created_at,"Asia/Tokyo")) OVER (PARTITION BY customer_id ORDER BY entity_id DESC))), '-', LPAD(CAST(EXTRACT(MONTH FROM DATE(LAG(DATETIME(created_at,"Asia/Tokyo")) OVER (PARTITION BY customer_id ORDER BY entity_id DESC))) AS STRING),2,'0'), '-','01')) as next_order_date_formatted
-          FROM sales
-          WHERE status IN ('processing', 'pending', 'complete', 'shipped')
-     ;;
+                WHEN order_sequence = 1 THEN '1-First Order'
+                WHEN order_sequence = 2 THEN '2-First Repeat Order'
+                WHEN order_sequence BETWEEN 3 AND 4 THEN '3-Repeater'
+                WHEN order_sequence > 4 THEN '4-Loyal'
+              END AS customer_segment
+            FROM (
+              SELECT
+                entity_id AS order_id,
+                increment_id AS real_order_id,
+                customer_id,
+                created_at,
+                base_grand_total,
+                is_subscription,
+                ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS order_sequence
+              FROM ${sales.SQL_TABLE_NAME}
+            )
+            ;;
   }
 
   dimension_group: created {

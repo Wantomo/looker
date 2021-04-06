@@ -1,40 +1,35 @@
 view: sales_rfm_accumulative {
   derived_table: {
-    sql:  (SELECT
-            customer_id,
-            potential_churn_date AS date,
-            NULL as count_order,
-            NULL as total,
-            'Potential Churn' AS customer_segment,
-            NULL AS R,
-            R2
-          FROM ${sales_rfm_monthly.SQL_TABLE_NAME}
-          WHERE
-            potential_churn_date IS NOT NULL)
-            UNION ALL
-            (
-              SELECT
-                customer_id,
-                date,
-                count_order,
-                total,
-                customer_segment,
-                R,
-                R2
-              FROM ${sales_rfm_monthly.SQL_TABLE_NAME}
-            )
-            UNION ALL
-            (
-              SELECT
-                customer_id,
-                R2 as date,
-                count_order,
-                total,
-                customer_segment,
-                R,
-                R2
-              FROM ${sales_rfm_monthly.SQL_TABLE_NAME}
-            )
+    # Built for monthly accumulative RFM analysis
+    # Includes orders for the month (R0 for F1/F2), and for the month + following month (R0, R1 from F3)
+    # Includes Churn Rate segment : R1 for F1/F2, R2 from F3
+    # Grouped by customer_id (= distinct). If multiple orders are made same month, MAX segment is used
+    sql:  (
+            SELECT
+              customer_id,
+              potential_churn_date AS date,
+              NULL as count_order,
+              NULL as total,
+              'Potential Churn' AS customer_segment
+            FROM  ${sales_rfm_monthly.SQL_TABLE_NAME}
+            WHERE potential_churn_date IS NOT NULL)
+          UNION ALL (
+            SELECT
+              customer_id,
+              date,
+              count_order,
+              total,
+              customer_segment
+            FROM ${sales_rfm_monthly.SQL_TABLE_NAME})
+          UNION ALL (
+            SELECT
+              customer_id,
+              R2 as date,
+              count_order,
+              total,
+              customer_segment
+            FROM ${sales_rfm_monthly.SQL_TABLE_NAME}
+          )
           ;;
   }
 

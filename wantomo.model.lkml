@@ -32,6 +32,9 @@ explore: sales {
   }
 }
 
+explore: sales_sequence {
+
+}
 explore: sales_item {
   join: pet {
     relationship: one_to_one
@@ -50,15 +53,6 @@ explore: sales_item {
     sql_on: ${sales_item.order_id} = ${sales_group_by_meat.entity_id} ;;
   }
   sql_always_where: ${created_date} >= '2017-04-01' ;;
-}
-
-explore: ga_daily_users {
-}
-
-explore: daily_kpi_targets {
-}
-
-explore: online_ad_spending {
 }
 
 explore: customer {
@@ -114,6 +108,12 @@ explore: subscription {
   join: quote {
     relationship: one_to_one
     sql_on: ${subscription.quote_id} = ${quote.entity_id} ;;
+  }
+}
+
+explore: sales_rfm {
+  always_filter: {
+    filters: [date_filter: "1 months ago"]
   }
 }
 
