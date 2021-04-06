@@ -57,7 +57,7 @@ view: funnel_first_visit {
         END ;;
   }
 
-  dimension: dummy_three {
+  dimension: step {
     case: {
       when: {
         label: "1st page"
