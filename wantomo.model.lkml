@@ -128,6 +128,18 @@ explore: sales_rfm_accumulative {
 explore: funnel_first_visit {
 
 }
+
+explore: daily_kpi_targets {
+
+}
+
+explore: ga_daily_users {
+
+}
+
+explore: online_ad_spending {
+
+}
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.
 #

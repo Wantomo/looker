@@ -51,9 +51,16 @@ view: funnel_first_visit {
           WHEN ${campaign_source} = 'google' AND ${campaign_medium} = 'organic' THEN 'Google_organic'
           WHEN ${campaign_source} = 'yahoo' AND ${campaign_medium} = 'organic' THEN 'Yahoo_organic'
           WHEN ${campaign_source} = 'direct' AND ${campaign_medium} = 'none' THEN 'Direct_none'
-          WHEN ${campaign_source} = 'direct' AND ${campaign_medium} = 'none' THEN 'Direct_none'
           WHEN ${campaign_source} = 'klaviyo' AND ${campaign_medium} = 'email' THEN 'Klaviyo_email'
           WHEN ${campaign_source} = 'instagram' AND ${campaign_medium} = 'profile' THEN 'Instagram_profile'
+        END ;;
+  }
+
+  dimension: acquisition_name {
+    type: string
+    sql: CASE
+          WHEN ${campaign_term} != 'none' THEN CONCAT(${campaign_name},' - ' ,${campaign_term})
+          ELSE ${campaign_name}
         END ;;
   }
 
