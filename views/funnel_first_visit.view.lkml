@@ -12,6 +12,11 @@ view: funnel_first_visit {
     sql: ${TABLE}.campaign_name ;;
   }
 
+  dimension: channel {
+    type: string
+    sql: ${TABLE}.channel ;;
+  }
+
   dimension: campaign_source {
     type: string
     sql: ${TABLE}.campaign_source ;;
