@@ -232,5 +232,6 @@ view: sales_item {
   measure: unique_pet_count {
     type: count_distinct
     sql: ${pet_id} ;;
+    drill_fields: [sku, pet_id, order_id]
   }
 }

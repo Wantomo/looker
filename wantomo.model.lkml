@@ -87,8 +87,8 @@ explore: pet {
   }
   join: sales_item {
     relationship: one_to_many
-    type: inner
-    sql_on: ${pet.pet_id} = ${sales_item.order_id} ;;
+    type: left_outer
+    sql_on: ${pet.pet_id} = ${sales_item.pet_id} ;;
   }
   join: sales {
     relationship: many_to_one
