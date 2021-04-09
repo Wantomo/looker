@@ -180,11 +180,6 @@ view: pet {
     sql: ${TABLE}.breed_name ;;
   }
 
-  dimension: has_ordered {
-    type: string
-    sql: (SELECT medium FROM ${sales_sequence.SQL_TABLE_NAME} o LEFT JOIN ${sales_utm.SQL_TABLE_NAME} u ON o.real_order_id = u.id WHERE order_sequence = 1 AND o.customer_id=customer.customer_id ) ;;
-  }
-
   measure: count {
     type: count
     drill_fields: [pet_id]
