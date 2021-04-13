@@ -37,6 +37,16 @@ view: funnel_first_visit {
     sql: ${TABLE}.first_website ;;
   }
 
+  dimension: total_revenue {
+    type: number
+    sql: ${TABLE}.total_revenue ;;
+  }
+
+  dimension: count_orders {
+    type: number
+    sql: ${TABLE}.count_orders ;;
+  }
+
   dimension: acquisition_source {
     type: string
     sql: CASE
@@ -219,5 +229,15 @@ view: funnel_first_visit {
   measure: count_first_visit {
     type: number
     sql: COUNT(${first_visit_date}) ;;
+  }
+
+  measure: sum_count_orders {
+    type: number
+    sql: SUM(${count_orders}) ;;
+  }
+
+  measure: sum_total_revenue {
+    type: number
+    sql: SUM(${total_revenue}) ;;
   }
 }
