@@ -72,6 +72,10 @@ explore: customer {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${customer_sales.customer_id};;
   }
+  join: subscription {
+    relationship: one_to_one
+    sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
+  }
 }
 
 explore: pet {

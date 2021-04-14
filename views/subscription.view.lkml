@@ -154,6 +154,11 @@ view: subscription {
     sql: ${TABLE}.status ;;
   }
 
+  dimension: is_subscribed {
+    type: yesno
+    sql:  ${status} = 1 ;;
+  }
+
   dimension_group: updated {
     type: time
     timeframes: [
