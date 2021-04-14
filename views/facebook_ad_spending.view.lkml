@@ -36,6 +36,7 @@ view: facebook_ad_spending {
       year
     ]
     sql: ${TABLE}.date_start ;;
+    convert_tz: no
   }
 
   dimension_group: date_stop {
@@ -50,6 +51,7 @@ view: facebook_ad_spending {
       year
     ]
     sql: ${TABLE}.date_stop ;;
+    convert_tz: no
   }
 
   dimension: frequency {

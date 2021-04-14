@@ -101,6 +101,7 @@ view: sales {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    convert_tz: no
   }
 
   dimension_group: customer_dob {
@@ -115,6 +116,7 @@ view: sales {
       year
     ]
     sql: ${TABLE}.customer_dob ;;
+    convert_tz: no
   }
 
   dimension: customer_email {
@@ -164,6 +166,7 @@ view: sales {
       year
     ]
     sql: ${TABLE}.delivery_date ;;
+    convert_tz: no
   }
 
   dimension: delivery_time_range {
@@ -274,6 +277,7 @@ view: sales {
       year
     ]
     sql: ${TABLE}.updated_at ;;
+    convert_tz: no
   }
 
   dimension: weight {

@@ -53,6 +53,7 @@ view: customer_sales {
       year
     ]
     sql: ${TABLE}.first_order_date ;;
+    convert_tz: no
   }
 
   dimension: first_order_source {

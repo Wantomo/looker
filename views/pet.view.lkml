@@ -41,6 +41,7 @@ view: pet {
       year
     ]
     sql: ${TABLE}.completed_at ;;
+    convert_tz: no
   }
 
   dimension_group: created {
@@ -55,6 +56,7 @@ view: pet {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    convert_tz: no
   }
 
   dimension: digestion {
@@ -74,6 +76,7 @@ view: pet {
       year
     ]
     sql: ${TABLE}.dob ;;
+    convert_tz: no
   }
 
   dimension: is_sterilized {

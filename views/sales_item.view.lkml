@@ -59,6 +59,7 @@ view: sales_item {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    convert_tz: no
   }
 
   dimension: discount_amount {
@@ -199,6 +200,7 @@ view: sales_item {
       year
     ]
     sql: ${TABLE}.updated_at ;;
+    convert_tz: no
   }
 
   dimension: weight {

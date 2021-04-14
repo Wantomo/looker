@@ -61,6 +61,7 @@ view: sales_utm {
       year
     ]
     sql: ${TABLE}.start_date ;;
+    convert_tz: no
   }
 
   measure: count {

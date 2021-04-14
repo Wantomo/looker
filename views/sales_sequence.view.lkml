@@ -42,6 +42,7 @@ view: sales_sequence {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    convert_tz: no
   }
 
   dimension: customer_id {

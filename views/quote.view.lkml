@@ -69,6 +69,7 @@ view: quote {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    convert_tz: no
   }
 
   dimension_group: customer_dob {
@@ -83,6 +84,7 @@ view: quote {
       year
     ]
     sql: ${TABLE}.customer_dob ;;
+    convert_tz: no
   }
 
   dimension: customer_email {
@@ -278,6 +280,7 @@ view: quote {
       year
     ]
     sql: ${TABLE}.updated_at ;;
+    convert_tz: no
   }
 
   measure: count {

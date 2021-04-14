@@ -21,6 +21,7 @@ view: subscription {
       year
     ]
     sql: ${TABLE}.canceled_at ;;
+    convert_tz: no
   }
 
   dimension: canceled_num {
@@ -40,6 +41,7 @@ view: subscription {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    convert_tz: no
   }
 
   dimension: customer_id {
@@ -59,6 +61,7 @@ view: subscription {
       year
     ]
     sql: ${TABLE}.delivery_date ;;
+    convert_tz: no
   }
 
   dimension: delivery_frequency {
@@ -88,6 +91,7 @@ view: subscription {
       year
     ]
     sql: ${TABLE}.last_update_at ;;
+    convert_tz: no
   }
 
   dimension_group: order_process {
@@ -102,6 +106,7 @@ view: subscription {
       year
     ]
     sql: ${TABLE}.order_process_at ;;
+    convert_tz: no
   }
 
   dimension: quote_id {
@@ -121,6 +126,7 @@ view: subscription {
       year
     ]
     sql: ${TABLE}.reminder_at ;;
+    convert_tz: no
   }
 
   dimension: reminder_sent {
@@ -140,6 +146,7 @@ view: subscription {
       year
     ]
     sql: ${TABLE}.started_at ;;
+    convert_tz: no
   }
 
   dimension: status {
@@ -159,6 +166,7 @@ view: subscription {
       year
     ]
     sql: ${TABLE}.updated_at ;;
+    convert_tz: no
   }
 
   measure: count {

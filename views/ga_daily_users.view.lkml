@@ -31,6 +31,7 @@ view: ga_daily_users {
       year
     ]
     sql: ${TABLE}.ga_date ;;
+    convert_tz: no
   }
 
   dimension: newusers {

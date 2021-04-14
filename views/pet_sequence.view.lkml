@@ -32,6 +32,7 @@ view: pet_sequence {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    convert_tz: no
   }
 
   dimension_group: completed {
@@ -47,6 +48,7 @@ view: pet_sequence {
       year
     ]
     sql: ${TABLE}.completed_at ;;
+    convert_tz: no
   }
 
   dimension: owner_id {

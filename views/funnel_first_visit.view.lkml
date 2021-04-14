@@ -120,6 +120,7 @@ view: funnel_first_visit {
       year
     ]
     sql: ${TABLE}.first_cart_viewed_date_ts ;;
+    convert_tz: no
   }
 
   dimension_group: create_karte_viewed {
@@ -134,6 +135,7 @@ view: funnel_first_visit {
       year
     ]
     sql: ${TABLE}.first_create_karte_viewed_date_ts ;;
+    convert_tz: no
   }
 
   dimension_group: karte_created {
@@ -148,6 +150,7 @@ view: funnel_first_visit {
       year
     ]
     sql: ${TABLE}.first_karte_date_ts ;;
+    convert_tz: no
   }
 
   dimension_group: lead_completed {
@@ -162,6 +165,7 @@ view: funnel_first_visit {
       year
     ]
     sql: ${TABLE}.first_lead_date_ts ;;
+    convert_tz: no
   }
 
   dimension_group: order_completed {
@@ -176,6 +180,7 @@ view: funnel_first_visit {
       year
     ]
     sql: ${TABLE}.first_order_date_ts ;;
+    convert_tz: no
   }
 
   dimension_group: first_visit {
@@ -190,6 +195,7 @@ view: funnel_first_visit {
       year
     ]
     sql: ${TABLE}.first_visit_ts ;;
+    convert_tz: no
   }
 
   dimension: user_id {
