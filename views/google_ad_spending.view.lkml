@@ -53,16 +53,6 @@ view: google_ad_spending {
     sql: ${TABLE}.name ;;
   }
 
-  dimension: serving_status {
-    type: string
-    sql: ${TABLE}.serving_status ;;
-  }
-
-  dimension: status {
-    type: string
-    sql: ${TABLE}.status ;;
-  }
-
   dimension: utm_term {
     type: string
     sql: ${TABLE}.utm_term ;;
