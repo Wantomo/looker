@@ -1,13 +1,6 @@
 view: google_ad_spending {
   sql_table_name: `leafy-habitat-174801.marketing.google_ad_spending`
     ;;
-  drill_fields: [id]
-
-  dimension: id {
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.id ;;
-  }
 
   dimension: budget {
     type: number
@@ -56,11 +49,6 @@ view: google_ad_spending {
   dimension: utm_term {
     type: string
     sql: ${TABLE}.utm_term ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [id, name]
   }
 
   measure: total_spend {
