@@ -72,6 +72,10 @@ explore: customer {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${customer_sales.customer_id};;
   }
+  join: sales_rfm_accumulative {
+    relationship: one_to_one
+    sql_on: ${customer.customer_id} = ${sales_rfm_accumulative.customer_id};;
+  }
   join: subscription {
     relationship: one_to_one
     sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
@@ -144,6 +148,9 @@ explore: online_ad_spending {
 }
 
 explore: facebook_ad_spending {
+}
+
+explore: google_ad_spending {
 }
 
 # # Select the views that should be a part of this model,
