@@ -129,11 +129,6 @@ view: subscription {
     convert_tz: no
   }
 
-  dimension: reminder_sent {
-    type: number
-    sql: ${TABLE}.reminder_sent ;;
-  }
-
   dimension_group: started {
     type: time
     timeframes: [

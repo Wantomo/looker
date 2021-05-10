@@ -3,7 +3,7 @@ view: sales_sequence {
       # Sequence orders and create Segments
       sql:  SELECT
               order_id,
-              real_order_id,
+              increment_id,
               customer_id,
               created_at,
               base_grand_total,
@@ -18,7 +18,7 @@ view: sales_sequence {
             FROM (
               SELECT
                 entity_id AS order_id,
-                increment_id AS real_order_id,
+                increment_id,
                 customer_id,
                 created_at,
                 base_grand_total,
@@ -58,10 +58,10 @@ view: sales_sequence {
     sql: ${TABLE}.order_id ;;
   }
 
-  dimension: real_order_id {
+  dimension: increment_id {
     description: "Real order ID for each order"
-    type: number
-    sql: ${TABLE}.order_id ;;
+    type: string
+    sql: ${TABLE}.increment_id ;;
   }
 
   dimension: is_subscription {

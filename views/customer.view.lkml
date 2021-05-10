@@ -7,6 +7,10 @@ view: customer {
     primary_key: yes
     type: number
     sql: ${TABLE}.customer_id ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/29?Customer%20ID={{ value }}"
+    }
   }
 
   dimension: city {

@@ -7,16 +7,29 @@ view: pet {
     primary_key: yes
     type: number
     sql: ${TABLE}.pet_id ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/33?Pet%20ID={{ value }}"
+    }
   }
 
   dimension: activity {
-    type: number
-    sql: ${TABLE}.activity ;;
+    type: string
+    description: "Level of activity"
+    sql: CASE
+          WHEN ${TABLE}.activity = 0.90 THEN 'A little'
+          WHEN ${TABLE}.activity = 1.00 THEN 'Normal'
+          WHEN ${TABLE}.activity = 1.10 THEN 'A lot'
+        END ;;
   }
 
   dimension: body_type {
-    type: number
-    sql: ${TABLE}.body_type ;;
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.body_type = 2 THEN 'Thin'
+          WHEN ${TABLE}.body_type = 3 THEN 'Normal'
+          WHEN ${TABLE}.body_type = 4 THEN 'Overweight'
+        END ;;
   }
 
   dimension: breed_id {
@@ -25,11 +38,16 @@ view: pet {
   }
 
   dimension: coat {
-    type: number
-    sql: ${TABLE}.coat ;;
+    label: "Coat Issue"
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.coat = 0 THEN 'Normal'
+          WHEN ${TABLE}.coat = 1 THEN 'Not good'
+        END ;;
   }
 
   dimension_group: completed {
+    description: "Date of completion of a pet"
     type: time
     timeframes: [
       raw,
@@ -45,6 +63,7 @@ view: pet {
   }
 
   dimension_group: created {
+    description: "Date of when a pet was started to be created (after registration)"
     type: time
     timeframes: [
       raw,
@@ -60,11 +79,17 @@ view: pet {
   }
 
   dimension: digestion {
-    type: number
-    sql: ${TABLE}.digestion ;;
+    label: "Digestion Issue"
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.digestion = 0 THEN 'Normal'
+          WHEN ${TABLE}.digestion = 1 THEN 'Constipation'
+          WHEN ${TABLE}.digestion = 2 THEN 'Too much poop'
+        END ;;
   }
 
   dimension_group: dob {
+    label: "Birth Date"
     type: time
     timeframes: [
       raw,
@@ -87,10 +112,8 @@ view: pet {
   dimension: gender {
     type: string
     sql:  CASE
-              WHEN ${TABLE}.gender = 1 THEN 'Girl'
-              WHEN ${TABLE}.gender = 2 THEN 'Boy'
-              WHEN ${TABLE}.gender = 3 THEN 'Girl'
-              WHEN ${TABLE}.gender = 4 THEN 'Boy'
+              WHEN ${TABLE}.gender IN (1, 3) THEN 'Girl'
+              WHEN ${TABLE}.gender IN (2, 4) THEN 'Boy'
           END ;;
   }
 
@@ -102,6 +125,7 @@ view: pet {
 
   dimension: age_group {
     type: string
+    description: "Age < 1y = Puppy / Age < 7y = Adult"
     sql:  CASE
               WHEN ${age} < 1 THEN 'Puppy'
               WHEN ${age} < 7 THEN 'Adult'
@@ -109,19 +133,18 @@ view: pet {
           END ;;
   }
 
-  dimension: image {
-    type: string
-    sql: ${TABLE}.image ;;
-  }
-
   dimension: is_accurate_birthday {
-    type: number
-    sql: ${TABLE}.is_accurate_birthday ;;
+    type: yesno
+    sql: ${TABLE}.is_accurate_birthday = 1;;
   }
 
   dimension: joint {
-    type: number
-    sql: ${TABLE}.joint ;;
+    label: "Joint Issue"
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.joint = 0 THEN 'Normal'
+          WHEN ${TABLE}.joint = 1 THEN 'Not good'
+        END ;;
   }
 
   dimension: name {
@@ -132,26 +155,48 @@ view: pet {
   dimension: owner_id {
     type: number
     sql: ${TABLE}.owner_id ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/29?Customer%20ID={{ value }}"
+    }
   }
 
   dimension: skin {
-    type: number
-    sql: ${TABLE}.skin ;;
+    label: "Skin Issue"
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.skin = 0 THEN 'Normal'
+          WHEN ${TABLE}.skin = 1 THEN 'Dry'
+          WHEN ${TABLE}.skin = 2 THEN 'Oily'
+        END ;;
   }
 
   dimension: snack {
-    type: number
-    sql: ${TABLE}.snack ;;
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.snack = 0 THEN 'No'
+          WHEN ${TABLE}.snack = 1 THEN 'Sometimes'
+          WHEN ${TABLE}.snack = 2 THEN 'Yes'
+        END ;;
   }
 
   dimension: status {
-    type: number
-    sql: ${TABLE}.status ;;
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.status = 0 THEN 'Processing'
+          WHEN ${TABLE}.status = 1 THEN 'Active'
+          WHEN ${TABLE}.status = 2 THEN 'Disabled'
+          WHEN ${TABLE}.status = 3 THEN 'Past Away'
+        END ;;
   }
 
   dimension: tear {
-    type: number
-    sql: ${TABLE}.tear ;;
+    label: "Tear Issue"
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.tear = 0 THEN 'Normal'
+          WHEN ${TABLE}.tear = 1 THEN 'Not good'
+        END ;;
   }
 
   dimension_group: updated {
@@ -174,8 +219,12 @@ view: pet {
   }
 
   dimension: breed_size {
-    type: number
-    sql: ${TABLE}.breed_size ;;
+    type: string
+    sql: CASE
+          WHEN ${TABLE}.breed_size = 1 THEN 'Small'
+          WHEN ${TABLE}.breed_size = 2 THEN 'Medium'
+          WHEN ${TABLE}.breed_size = 3 THEN 'Large'
+        END ;;
   }
 
   dimension: breed_name {

@@ -14,6 +14,7 @@ view: sales_group_by_meat {
   }
 
   dimension: entity_id {
+    label: "Internal Order Id"
     primary_key: yes
     type: number
     sql: ${TABLE}.entity_id ;;

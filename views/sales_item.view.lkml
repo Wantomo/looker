@@ -2,49 +2,16 @@ view: sales_item {
   sql_table_name: `leafy-habitat-174801.looker.sales_item`
     ;;
 
-  dimension: applied_rule_ids {
-    type: string
-    sql: ${TABLE}.applied_rule_ids ;;
-  }
-
-  dimension: base_discount_amount {
-    type: number
-    sql: ${TABLE}.base_discount_amount ;;
-  }
-
-  dimension: base_discount_tax_compensation_amount {
-    type: number
-    sql: ${TABLE}.base_discount_tax_compensation_amount ;;
-  }
-
-  dimension: base_original_price {
-    type: number
-    sql: ${TABLE}.base_original_price ;;
-  }
-
-  dimension: base_price {
-    type: number
-    sql: ${TABLE}.base_price ;;
-  }
-
   dimension: base_price_incl_tax {
     type: number
     sql: ${TABLE}.base_price_incl_tax ;;
-  }
-
-  dimension: base_row_total {
-    type: number
-    sql: ${TABLE}.base_row_total ;;
+    label: "Unit Price"
   }
 
   dimension: base_row_total_incl_tax {
     type: number
     sql: ${TABLE}.base_row_total_incl_tax ;;
-  }
-
-  dimension: base_tax_amount {
-    type: number
-    sql: ${TABLE}.base_tax_amount ;;
+    label: "Price"
   }
 
   dimension_group: created {
@@ -62,39 +29,10 @@ view: sales_item {
     convert_tz: no
   }
 
-  dimension: discount_amount {
-    type: number
-    sql: ${TABLE}.discount_amount ;;
-  }
-
-  dimension: discount_tax_compensation_amount {
-    type: number
-    sql: ${TABLE}.discount_tax_compensation_amount ;;
-  }
-
   dimension: food_days {
     type: string
     sql: ${TABLE}.food_days ;;
-  }
-
-  dimension: free_shipping {
-    type: number
-    sql: ${TABLE}.free_shipping ;;
-  }
-
-  dimension: gift_message_available {
-    type: number
-    sql: ${TABLE}.gift_message_available ;;
-  }
-
-  dimension: is_qty_decimal {
-    type: number
-    sql: ${TABLE}.is_qty_decimal ;;
-  }
-
-  dimension: is_virtual {
-    type: number
-    sql: ${TABLE}.is_virtual ;;
+    label: "Days of Food Ordered"
   }
 
   dimension: item_id {
@@ -108,19 +46,10 @@ view: sales_item {
     sql: ${TABLE}.name ;;
   }
 
-  dimension: no_discount {
-    type: number
-    sql: ${TABLE}.no_discount ;;
-  }
-
   dimension: order_id {
     type: number
     sql: ${TABLE}.order_id ;;
-  }
-
-  dimension: package_image {
-    type: string
-    sql: ${TABLE}.package_image ;;
+    label: "Internal Order Id"
   }
 
   dimension: parent_item_id {
@@ -131,11 +60,10 @@ view: sales_item {
   dimension: pet_id {
     type: number
     sql: ${TABLE}.pet_id ;;
-  }
-
-  dimension: pre_order {
-    type: number
-    sql: ${TABLE}.pre_order ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/33?Pet%20ID={{ value }}"
+    }
   }
 
   dimension: product_id {
@@ -143,17 +71,8 @@ view: sales_item {
     sql: ${TABLE}.product_id ;;
   }
 
-  dimension: product_options {
-    type: string
-    sql: ${TABLE}.product_options ;;
-  }
-
-  dimension: product_type {
-    type: string
-    sql: ${TABLE}.product_type ;;
-  }
-
   dimension: qty_ordered {
+    label: "Quantity"
     type: number
     sql: ${TABLE}.qty_ordered ;;
   }
@@ -176,16 +95,6 @@ view: sales_item {
   dimension: sku {
     type: string
     sql: ${TABLE}.sku ;;
-  }
-
-  dimension: store_id {
-    type: number
-    sql: ${TABLE}.store_id ;;
-  }
-
-  dimension: subscription_mode {
-    type: number
-    sql: ${TABLE}.subscription_mode ;;
   }
 
   dimension_group: updated {
@@ -214,14 +123,14 @@ view: sales_item {
   }
 
   measure: total_sales {
-    description: "Total is calculated at the product level, no discount applied."
+    description: "Total is calculated at the product level, no discount applied"
     type: sum
     sql: ${base_row_total_incl_tax} ;;
     drill_fields: [sku, pet_id]
   }
 
   measure: total_qty {
-    description: "Total quantity of product sold."
+    description: "Total quantity of product sold"
     type: sum
     sql: ${qty_ordered} ;;
   }

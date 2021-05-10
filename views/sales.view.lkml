@@ -5,90 +5,53 @@ view: sales {
   dimension: applied_rule_ids {
     type: string
     sql: ${TABLE}.applied_rule_ids ;;
-  }
-
-  dimension: base_currency_code {
-    type: string
-    sql: ${TABLE}.base_currency_code ;;
+    label: "Rule Ids"
   }
 
   dimension: base_discount_amount {
+    label: "Discount"
     type: number
     sql: ${TABLE}.base_discount_amount ;;
   }
 
-  dimension: base_discount_tax_compensation_amount {
-    type: number
-    sql: ${TABLE}.base_discount_tax_compensation_amount ;;
-  }
-
   dimension: base_grand_total {
+    label: "Total"
     type: number
     sql: ${TABLE}.base_grand_total ;;
   }
 
-  dimension: base_msp_cod_amount {
+  dimension: cod {
+    label: "COD"
     type: number
-    sql: ${TABLE}.base_msp_cod_amount ;;
-  }
-
-  dimension: base_msp_cod_tax_amount {
-    type: number
-    sql: ${TABLE}.base_msp_cod_tax_amount ;;
-  }
-
-  dimension: base_shipping_amount {
-    type: number
-    sql: ${TABLE}.base_shipping_amount ;;
-  }
-
-  dimension: base_shipping_discount_amount {
-    type: number
-    sql: ${TABLE}.base_shipping_discount_amount ;;
+    sql: ${TABLE}.base_msp_cod_amount + ${TABLE}.base_msp_cod_tax_amount;;
   }
 
   dimension: base_shipping_incl_tax {
+    label: "Shipping"
     type: number
     sql: ${TABLE}.base_shipping_incl_tax ;;
   }
 
-  dimension: base_shipping_tax_amount {
+  dimension: subtotal_incl_tax {
+    label: "Subtotal"
     type: number
-    sql: ${TABLE}.base_shipping_tax_amount ;;
-  }
-
-  dimension: base_subtotal {
-    type: number
-    sql: ${TABLE}.base_subtotal ;;
-  }
-
-  dimension: base_subtotal_incl_tax {
-    type: number
-    sql: ${TABLE}.base_subtotal_incl_tax ;;
+    sql: ${TABLE}.subtotal_incl_tax ;;
   }
 
   dimension: base_tax_amount {
+    label: "Tax"
     type: number
     sql: ${TABLE}.base_tax_amount ;;
   }
 
-  dimension: billing_address_id {
-    type: number
-    sql: ${TABLE}.billing_address_id ;;
-  }
-
   dimension: coupon_code {
+    label: "Coupon"
     type: string
     sql: ${TABLE}.coupon_code ;;
   }
 
-  dimension: coupon_rule_name {
-    type: string
-    sql: ${TABLE}.coupon_rule_name ;;
-  }
-
   dimension_group: created {
-    label: "Date of Order"
+    label: "Order Date"
     type: time
     timeframes: [
       raw,
@@ -104,21 +67,6 @@ view: sales {
     convert_tz: no
   }
 
-  dimension_group: customer_dob {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.customer_dob ;;
-    convert_tz: no
-  }
-
   dimension: customer_email {
     type: string
     sql: ${TABLE}.customer_email ;;
@@ -129,19 +77,13 @@ view: sales {
     sql: ${TABLE}.customer_firstname ;;
   }
 
-  dimension: customer_gender {
-    type: number
-    sql: ${TABLE}.customer_gender ;;
-  }
-
-  dimension: customer_group_id {
-    type: number
-    sql: ${TABLE}.customer_group_id ;;
-  }
-
   dimension: customer_id {
     type: number
     sql: ${TABLE}.customer_id ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/29?Customer%20ID={{ value }}"
+    }
   }
 
   dimension: customer_is_guest {
@@ -155,6 +97,7 @@ view: sales {
   }
 
   dimension_group: delivery {
+    label: "Delivery Date"
     type: time
     timeframes: [
       raw,
@@ -170,39 +113,49 @@ view: sales {
   }
 
   dimension: delivery_time_range {
+    label: "Delivery Time"
     type: number
     sql: ${TABLE}.delivery_time ;;
   }
 
-  dimension: discount_amount {
-    type: number
-    sql: ${TABLE}.discount_amount ;;
-  }
-
-  dimension: discount_description {
-    type: string
-    sql: ${TABLE}.discount_description ;;
-  }
-
-  dimension: discount_tax_compensation_amount {
-    type: number
-    sql: ${TABLE}.discount_tax_compensation_amount ;;
-  }
-
-  dimension: email_sent {
-    type: number
-    sql: ${TABLE}.email_sent ;;
-  }
-
   dimension: entity_id {
+    label: "Internal Order Id"
     primary_key: yes
     type: number
     sql: ${TABLE}.entity_id ;;
   }
 
   dimension: increment_id {
+    label: "Order ID"
     type: string
     sql: ${TABLE}.increment_id ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/31?Order%20ID={{ value }}"
+    }
+  }
+
+  dimension: total_item_count {
+    label: "Item Count"
+    description: "Number of unique item of an order"
+    type: number
+    sql: ${TABLE}.total_item_count ;;
+  }
+
+  dimension: total_qty_ordered {
+    label: "Quantity"
+    type: number
+    sql: ${TABLE}.total_qty_ordered ;;
+  }
+
+  dimension: order_type {
+    label: "Order type"
+    description: "Whether the order was made from food (= 1)/frontline (= 2)"
+    type: number
+    sql:  CASE
+            WHEN ${TABLE}.order_type = 2 THEN 'Frontline'
+            ELSE 'Food'
+          END ;;
   }
 
   dimension: is_subscription {
@@ -210,59 +163,9 @@ view: sales {
     sql: ${TABLE}.is_subscription = 1 ;;
   }
 
-  dimension: is_virtual {
-    type: number
-    sql: ${TABLE}.is_virtual ;;
-  }
-
-  dimension: quote_id {
-    type: number
-    sql: ${TABLE}.quote_id ;;
-  }
-
-  dimension: remote_ip {
-    type: string
-    sql: ${TABLE}.remote_ip ;;
-  }
-
-  dimension: send_email {
-    type: number
-    sql: ${TABLE}.send_email ;;
-  }
-
-  dimension: shipping_address_id {
-    type: number
-    sql: ${TABLE}.shipping_address_id ;;
-  }
-
-  dimension: shipping_description {
-    type: string
-    sql: ${TABLE}.shipping_description ;;
-  }
-
-  dimension: stamps {
-    type: number
-    sql: ${TABLE}.stamps ;;
-  }
-
-  dimension: state {
-    type: string
-    sql: ${TABLE}.state ;;
-  }
-
   dimension: status {
     type: string
     sql: ${TABLE}.status ;;
-  }
-
-  dimension: store_id {
-    type: number
-    sql: ${TABLE}.store_id ;;
-  }
-
-  dimension: store_name {
-    type: string
-    sql: ${TABLE}.store_name ;;
   }
 
   dimension_group: updated {
@@ -280,28 +183,13 @@ view: sales {
     convert_tz: no
   }
 
-  dimension: weight {
-    type: number
-    sql: ${TABLE}.weight ;;
-  }
-
-  dimension: welcome_stamps {
-    type: number
-    sql: ${TABLE}.welcome_stamps ;;
-  }
-
-  dimension: x_forwarded_for {
-    type: string
-    sql: ${TABLE}.x_forwarded_for ;;
-  }
-
   measure: count {
     label: "Count of Order"
     type: count
   }
 
   measure: unique_user_count {
-    label: "Unique Count of Order By Customer"
+    label: "Count of Order By Unique Customer"
     type: count_distinct
     sql: ${customer_id} ;;
   }
