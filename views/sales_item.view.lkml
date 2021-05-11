@@ -82,6 +82,24 @@ view: sales_item {
     sql: ${TABLE}.quote_item_id ;;
   }
 
+  dimension: is_food {
+    type: yesno
+    sql: ${sku} LIKE 'FP-%' ;;
+  }
+
+  dimension: is_food_sample {
+    type: yesno
+    sql: ${sku} LIKE '%-150' ;;
+  }
+
+  dimension: meat_type {
+    type: string
+    sql: CASE
+          WHEN ${sku} LIKE 'FP-B-%'THEN 'Beef'
+          WHEN ${sku} LIKE 'FP-C-%' THEN 'Chicken'
+        END ;;
+  }
+
   dimension: recipe {
     type: string
     sql: ${TABLE}.recipe ;;
@@ -130,9 +148,11 @@ view: sales_item {
   }
 
   measure: total_qty {
+    label: "Total Quantity"
     description: "Total quantity of product sold"
     type: sum
     sql: ${qty_ordered} ;;
+    drill_fields: [sku, pet_id, order_id]
   }
 
   measure: unique_order_count {

@@ -18,9 +18,17 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${sales.increment_id} = ${sales_utm.order_id} ;;
   }
+  join: last_touch_utm {
+    relationship: one_to_one
+    sql_on: ${sales.entity_id} = ${last_touch_utm.entity_id} ;;
+  }
   join: customer {
     relationship: one_to_one
     sql_on: ${sales.customer_id} = ${customer.customer_id} ;;
+  }
+  join: pet {
+    relationship: one_to_one
+    sql_on: ${sales_item.pet_id} = ${pet.pet_id} ;;
   }
   join: customer_sales {
     relationship: one_to_one

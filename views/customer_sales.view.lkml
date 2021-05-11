@@ -97,16 +97,19 @@ view: customer_sales {
   }
 
   dimension: lifetime_sales {
+    label: "Lifetime Revenue"
     type: number
     sql: ${TABLE}.lifetime_sales ;;
   }
 
   measure: total_lifetime_sales {
+    label: "Sum Lifetime Revenue"
     type: sum
     sql: ${lifetime_sales} ;;
   }
 
   measure: avg_lifetime_sales {
+    label: "Average Lifetime Revenue"
     type: average
     sql: ${lifetime_sales} ;;
     value_format: "0"

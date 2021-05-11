@@ -195,16 +195,22 @@ view: sales {
   }
 
   measure: total_sales {
-    label: "Sales Total"
+    label: "Total Sales"
     type: sum
     sql: ${base_grand_total} ;;
   }
 
   measure: avg_sales {
-    label: "Sales Average"
+    label: "Average Sales"
     type: average
     sql: ${base_grand_total} ;;
     value_format: "0"
+  }
+
+  measure: total_items_sold {
+    label: "Total Items Sold"
+    type: sum
+    sql: ${total_qty_ordered} ;;
   }
 
   set: order_detail {

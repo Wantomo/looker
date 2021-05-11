@@ -260,9 +260,4 @@ view: pet {
     sql: ${age} ;;
     drill_fields: [pet_id]
   }
-
-  measure: breed_list {
-    type: list
-    list_field: breed_name
-  }
 }
