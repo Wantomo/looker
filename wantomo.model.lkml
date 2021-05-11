@@ -22,9 +22,17 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${sales.entity_id} = ${last_touch_utm.entity_id} ;;
   }
+  join: first_touch_utm {
+    relationship: one_to_one
+    sql_on: ${sales.entity_id} = ${first_touch_utm.entity_id} ;;
+  }
   join: customer {
     relationship: one_to_one
     sql_on: ${sales.customer_id} = ${customer.customer_id} ;;
+  }
+  join: first_session_utm {
+    relationship: one_to_one
+    sql_on: ${sales.customer_id} = ${first_session_utm.user_id} ;;
   }
   join: pet {
     relationship: one_to_one
@@ -79,6 +87,10 @@ explore: customer {
   join: customer_sales {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${customer_sales.customer_id};;
+  }
+  join: first_session_utm {
+    relationship: one_to_one
+    sql_on: ${customer.customer_id} = ${first_session_utm.user_id} ;;
   }
   join: sales_rfm_accumulative {
     relationship: one_to_one
