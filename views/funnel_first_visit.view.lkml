@@ -179,7 +179,7 @@ view: funnel_first_visit {
       quarter,
       year
     ]
-    sql: ${TABLE}.first_order_date_ts ;;
+    sql: TIMESTAMP(${TABLE}.first_order_date_ts) ;;
     convert_tz: no
   }
 
