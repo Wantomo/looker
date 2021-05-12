@@ -30,9 +30,9 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${sales.customer_id} = ${customer.customer_id} ;;
   }
-  join: first_session_utm {
+  join: acquisition_utm {
     relationship: one_to_one
-    sql_on: ${sales.customer_id} = ${first_session_utm.user_id} ;;
+    sql_on: ${sales.customer_id} = ${acquisition_utm.customer_id} AND ${acquisition_utm.customer_id} is not null;;
   }
   join: pet {
     relationship: one_to_one
@@ -88,9 +88,9 @@ explore: customer {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${customer_sales.customer_id};;
   }
-  join: first_session_utm {
+  join: acquisition_utm {
     relationship: one_to_one
-    sql_on: ${customer.customer_id} = ${first_session_utm.user_id} ;;
+    sql_on: ${customer.customer_id} = ${acquisition_utm.customer_id} AND ${acquisition_utm.customer_id} is not null;;
   }
   join: sales_rfm_accumulative {
     relationship: one_to_one

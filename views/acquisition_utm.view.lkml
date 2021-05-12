@@ -1,5 +1,5 @@
-view: first_session_utm {
-  sql_table_name: `leafy-habitat-174801.dataform_segment.first_session_utm`
+view: acquisition_utm {
+  sql_table_name: `leafy-habitat-174801.dataform_segment.acquisition_utm`
     ;;
 
   dimension: campaign_content {
@@ -32,15 +32,29 @@ view: first_session_utm {
     sql: ${TABLE}.channel ;;
   }
 
-  dimension: session_id {
-    type: string
-    sql: ${TABLE}.session_id ;;
+  dimension: customer_id {
+    type: number
+    sql: ${TABLE}.customer_id ;;
+    primary_key: yes
   }
 
-  dimension: user_id {
+  dimension: campaign_source_medium_channel {
     type: string
-    sql: ${TABLE}.user_id ;;
-    primary_key: yes
+    sql: concat(${campaign_source}, '/', ${campaign_medium}, '/', ${channel}) ;;
+  }
+
+  dimension_group: date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.date ;;
   }
 
   measure: count {
