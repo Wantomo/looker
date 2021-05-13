@@ -189,7 +189,7 @@ view: sales {
   }
 
   measure: unique_user_count {
-    label: "Count of Order By Unique Customer"
+    label: "Count of Unique Customer"
     type: count_distinct
     sql: ${customer_id} ;;
   }

@@ -61,6 +61,7 @@ view: sessions {
       year
     ]
     sql: ${TABLE}.finished_at ;;
+    convert_tz: no
   }
 
   dimension: has_ordered {
@@ -120,6 +121,7 @@ view: sessions {
       year
     ]
     sql: ${TABLE}.started_at ;;
+    convert_tz: no
   }
 
   dimension: user_id {
@@ -128,7 +130,70 @@ view: sessions {
   }
 
   measure: count {
+    label: "Sessions"
     type: count
-    drill_fields: [session_id, campaign_name, sessionized_pages.count]
+    drill_fields: [session_id, campaign_name]
+  }
+
+  measure: total_page_views {
+    label: "Page views"
+    type: sum
+    sql: ${page_views} ;;
+  }
+
+  measure: average_page_views {
+    label: "Average Pages / Session"
+    type: number
+    sql: SUM(${page_views}) / count(${session_id}) ;;
+    value_format: "0.##"
+  }
+
+  measure: average_session_per_users {
+    label: "Number of Sessions per User"
+    type: number
+    sql: count(${session_id}) / count(distinct(${user_id})) ;;
+    value_format: "0.##"
+  }
+
+  measure: average_session_duration {
+    label: "Avg. Session Duration"
+    type: average
+    sql: ${duration} ;;
+    value_format: "0"
+    html: {{ rendered_value | date: "%T" }};;
+  }
+
+  measure: bounces {
+    label: "Bounces"
+    type: number
+    sql: SUM(CASE WHEN ${bounced} = 1 THEN 1 ELSE 0 END);;
+  }
+
+  measure: bounce_rate {
+    label: "Bounce Rate"
+    type: number
+    sql:SUM(CASE WHEN ${bounced} = 1 THEN 1 ELSE 0
+    END) / count(${session_id});;
+    value_format: "0.00%"
+  }
+
+  measure: unique_user_count {
+    label: "Visitors"
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+  measure: unique_new_user_count {
+    label: "New Visitors"
+    type: count_distinct
+    sql: CASE WHEN ${session_index} = 1 THEN ${user_id} ELSE null
+    END ;;
+  }
+
+  measure: unique_repeat_user_count {
+    label: "Returning Visitors"
+    type: count_distinct
+    sql: CASE WHEN ${session_index} > 1 THEN ${user_id} ELSE null
+      END ;;
   }
 }

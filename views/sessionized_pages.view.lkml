@@ -95,6 +95,7 @@ view: sessionized_pages {
   }
 
   dimension_group: timestamp {
+    label: "Date"
     type: time
     timeframes: [
       raw,
@@ -106,6 +107,7 @@ view: sessionized_pages {
       year
     ]
     sql: ${TABLE}.timestamp ;;
+    convert_tz: no
   }
 
   dimension: user_agent {
@@ -124,7 +126,35 @@ view: sessionized_pages {
   }
 
   measure: count {
+    label: "Page views"
     type: count
     drill_fields: [campaign_name, sessions.session_id, sessions.campaign_name]
+  }
+
+  measure: unique_user_count {
+    label: "Visitors"
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+  measure: unique_session_count {
+    label: "Sessions"
+    type: count_distinct
+    sql: ${session_id} ;;
+  }
+
+
+  measure: unique_new_user_count {
+    label: "New Visitors"
+    type: count_distinct
+    sql: CASE WHEN ${session_index} = 1 THEN ${user_id} ELSE null
+      END ;;
+  }
+
+  measure: unique_repeat_user_count {
+    label: "Returning Visitors"
+    type: count_distinct
+    sql: CASE WHEN ${session_index} > 1 THEN ${user_id} ELSE null
+      END ;;
   }
 }

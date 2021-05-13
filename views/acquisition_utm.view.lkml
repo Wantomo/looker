@@ -55,6 +55,7 @@ view: acquisition_utm {
       year
     ]
     sql: ${TABLE}.date ;;
+    convert_tz: no
   }
 
   measure: count {
