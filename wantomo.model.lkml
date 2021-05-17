@@ -174,10 +174,17 @@ explore: google_ad_spending {
 }
 
 explore: sessions {
-
+  join: daily_aggregated_kpi {
+    relationship: one_to_one
+    sql_on: ${sessions.started_date} = ${daily_aggregated_kpi.date_date} ;;
+  }
 }
 
 explore: sessionized_pages {
+
+}
+
+explore: daily_aggregated_kpi {
 
 }
 

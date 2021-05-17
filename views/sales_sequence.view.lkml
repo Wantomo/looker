@@ -1,33 +1,5 @@
 view: sales_sequence {
-    derived_table: {
-      # Sequence orders and create Segments
-      sql:  SELECT
-              order_id,
-              increment_id,
-              customer_id,
-              created_at,
-              base_grand_total,
-              is_subscription,
-              order_sequence,
-              CASE
-                WHEN order_sequence = 1 THEN '1-First Order'
-                WHEN order_sequence = 2 THEN '2-First Repeat Order'
-                WHEN order_sequence BETWEEN 3 AND 4 THEN '3-Repeater'
-                WHEN order_sequence > 4 THEN '4-Loyal'
-              END AS customer_segment
-            FROM (
-              SELECT
-                entity_id AS order_id,
-                increment_id,
-                customer_id,
-                created_at,
-                base_grand_total,
-                is_subscription,
-                ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id ASC) AS order_sequence
-              FROM ${sales.SQL_TABLE_NAME}
-            )
-            ;;
-  }
+  sql_table_name: `leafy-habitat-174801.looker.sales_sequence`;;
 
   dimension_group: created {
     type: time
