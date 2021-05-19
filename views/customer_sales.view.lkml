@@ -3,7 +3,9 @@ view: customer_sales {
     sql:  SELECT
             customer_id,
             SUM(base_grand_total) AS lifetime_sales,
-            MIN(created_at) AS first_order_date
+            MIN(created_at) AS first_order_date,
+            MAX(created_at) AS last_order_date,
+            count(*) AS order_count
           FROM ${sales.SQL_TABLE_NAME}
           GROUP BY 1
      ;;
@@ -31,10 +33,32 @@ view: customer_sales {
     convert_tz: no
   }
 
+  dimension_group: last_order_date {
+    label: "Date of Last Order"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_order_date ;;
+    convert_tz: no
+  }
+
   dimension: lifetime_sales {
     label: "Lifetime Revenue"
     type: number
     sql: ${TABLE}.lifetime_sales ;;
+  }
+
+  dimension: order_count {
+    label: "Number of Orders"
+    type: number
+    sql: ${TABLE}.order_count ;;
   }
 
   measure: total_lifetime_sales {

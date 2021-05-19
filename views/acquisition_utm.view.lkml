@@ -1,4 +1,6 @@
 view: acquisition_utm {
+  label: "Customer Acquisition"
+
   sql_table_name: `leafy-habitat-174801.dataform_segment.acquisition_utm`
     ;;
 

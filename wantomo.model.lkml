@@ -5,6 +5,7 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 
 explore: sales {
+  group_label: "Sales"
   sql_always_where: ${created_date} >= '2017-04-01' ;;
    join: sales_item {
     relationship: one_to_many
@@ -49,9 +50,10 @@ explore: sales {
 }
 
 explore: sales_sequence {
-
+  group_label: "Sales"
 }
 explore: sales_item {
+  group_label: "Sales"
   join: pet {
     relationship: one_to_one
     sql_on: ${sales_item.pet_id} = ${pet.pet_id} ;;
@@ -72,6 +74,7 @@ explore: sales_item {
 }
 
 explore: customer {
+  group_label: "Customer"
   join: pet {
     relationship: one_to_many
     sql_on: ${customer.customer_id} = ${pet.owner_id};;
@@ -103,6 +106,7 @@ explore: customer {
 }
 
 explore: pet {
+  group_label: "Pet"
   join: pet_sequence {
     relationship: one_to_one
     type: left_outer
@@ -129,6 +133,7 @@ explore: pet {
 }
 
 explore: subscription {
+  group_label: "Subscription"
   join: customer {
     relationship: one_to_one
     sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
@@ -140,17 +145,18 @@ explore: subscription {
 }
 
 explore: sales_rfm {
+  group_label: "Sales"
   always_filter: {
     filters: [date_filter: "1 months ago"]
   }
 }
 
 explore: sales_rfm_monthly {
-
+  group_label: "Sales"
 }
 
 explore: sales_rfm_accumulative {
-
+  group_label: "Sales"
 }
 
 explore: funnel_first_visit {
@@ -161,19 +167,23 @@ explore: daily_kpi_targets {
 }
 
 explore: ga_daily_users {
-
+  group_label: "Sessions"
 }
 
 explore: online_ad_spending {
+  group_label: "Digital Marketing"
 }
 
 explore: facebook_ad_spending {
+  group_label: "Digital Marketing"
 }
 
 explore: google_ad_spending {
+  group_label: "Digital Marketing"
 }
 
 explore: sessions {
+  group_label: "Sessions"
   join: daily_aggregated_kpi {
     relationship: one_to_one
     sql_on: ${sessions.started_date} = ${daily_aggregated_kpi.date_date} ;;
@@ -181,7 +191,7 @@ explore: sessions {
 }
 
 explore: sessionized_pages {
-
+  group_label: "Sessions"
 }
 
 explore: daily_aggregated_kpi {
