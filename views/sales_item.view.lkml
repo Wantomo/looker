@@ -22,6 +22,7 @@ view: sales_item {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]

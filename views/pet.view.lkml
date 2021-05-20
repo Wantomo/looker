@@ -235,7 +235,7 @@ view: pet {
   dimension: service {
     label: "Service type"
     description: "Food (= 1)/frontline (= 2)"
-    type: number
+    type: string
     sql:  CASE
             WHEN ${TABLE}.service = 2 THEN 'Frontline'
             ELSE 'Food'
