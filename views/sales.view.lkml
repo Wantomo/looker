@@ -151,7 +151,7 @@ view: sales {
 
   dimension: order_type {
     label: "Order type"
-    description: "Whether the order was made from food (= 1)/frontline (= 2)"
+    description: "Food (= 1)/frontline (= 2)"
     type: number
     sql:  CASE
             WHEN ${TABLE}.order_type = 2 THEN 'Frontline'

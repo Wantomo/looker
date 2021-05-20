@@ -232,6 +232,16 @@ view: pet {
     sql: ${TABLE}.breed_name ;;
   }
 
+  dimension: service {
+    label: "Service type"
+    description: "Food (= 1)/frontline (= 2)"
+    type: number
+    sql:  CASE
+            WHEN ${TABLE}.service = 2 THEN 'Frontline'
+            ELSE 'Food'
+          END ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [pet_id]
