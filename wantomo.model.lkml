@@ -100,7 +100,7 @@ explore: customer {
     sql_on: ${customer.customer_id} = ${sales_rfm_accumulative.customer_id};;
   }
   join: subscription {
-    relationship: one_to_one
+    relationship: one_to_many
     sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
   }
 }
