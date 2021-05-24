@@ -142,6 +142,10 @@ explore: subscription {
     relationship: one_to_one
     sql_on: ${subscription.quote_id} = ${quote.entity_id} ;;
   }
+  join: customer_sales {
+    relationship: one_to_one
+    sql_on: ${subscription.customer_id} = ${customer_sales.customer_id} ;;
+  }
 }
 
 explore: sales_rfm {

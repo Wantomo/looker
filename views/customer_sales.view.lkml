@@ -61,6 +61,19 @@ view: customer_sales {
     sql: ${TABLE}.order_count ;;
   }
 
+  dimension: segment {
+    label: "Segment"
+    description: "Segment of customer based on orders"
+    type: string
+    sql:  CASE
+              WHEN ${order_count} = 1 THEN '1-First Order'
+              WHEN ${order_count} = 2 THEN '2-First Repeat'
+              WHEN ${order_count} > 2 AND ${order_count} < 5 THEN '3-Repeater'
+              WHEN ${order_count} >= 5 THEN '4-Loyal'
+              ELSE '0 - No order'
+          END ;;
+  }
+
   measure: total_lifetime_sales {
     label: "Sum Lifetime Revenue"
     type: sum
