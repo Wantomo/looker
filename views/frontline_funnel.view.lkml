@@ -39,6 +39,7 @@ view: frontline_funnel {
       year
     ]
     sql: ${TABLE}.cart_page_visited ;;
+    convert_tz: no
   }
 
   dimension: channel {
@@ -58,6 +59,7 @@ view: frontline_funnel {
       year
     ]
     sql: ${TABLE}.create_karte_page_visited ;;
+    convert_tz: no
   }
 
   dimension: duration {
@@ -87,6 +89,7 @@ view: frontline_funnel {
       year
     ]
     sql: ${TABLE}.order_page_visited ;;
+    convert_tz: no
   }
 
   dimension: page_views {
@@ -106,6 +109,7 @@ view: frontline_funnel {
       year
     ]
     sql: ${TABLE}.result_page_visited ;;
+    convert_tz: no
   }
 
   dimension: session_id {
@@ -126,6 +130,7 @@ view: frontline_funnel {
       year
     ]
     sql: ${TABLE}.started_at ;;
+    convert_tz: no
   }
 
   dimension: user_id {
