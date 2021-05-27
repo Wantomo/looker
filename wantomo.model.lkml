@@ -202,6 +202,10 @@ explore: daily_aggregated_kpi {
 
 }
 
+explore: klaviyo_events {
+
+}
+
 explore: frontline_funnel {
 
 }
