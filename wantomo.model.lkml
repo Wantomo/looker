@@ -4,6 +4,12 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 # include: "/**/*.view.lkml"                 # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
 
+datagroup: klaviyo_datagroup {
+  sql_trigger: SELECT max(timestamp) FROM `leafy-habitat-174801.dataform_klaviyo.events` ;;
+  max_cache_age: "24 hours"
+  description: "Triggered when new Klaviyo emails arrived"
+}
+
 explore: sales {
   group_label: "Sales"
   sql_always_where: ${created_date} >= '2017-04-01' ;;
@@ -203,6 +209,7 @@ explore: daily_aggregated_kpi {
 }
 
 explore: klaviyo_events {
+  persist_with: klaviyo_datagroup
   join: last_touch_utm {
     relationship: one_to_one
     sql_on: ${klaviyo_events.utm} = ${last_touch_utm.campaign_name} AND ${klaviyo_events.date_date} = ${last_touch_utm.order_date_date};;
