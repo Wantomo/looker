@@ -203,7 +203,10 @@ explore: daily_aggregated_kpi {
 }
 
 explore: klaviyo_events {
-
+  join: last_touch_utm {
+    relationship: one_to_one
+    sql_on: ${klaviyo_events.utm} = ${last_touch_utm.campaign_name} AND ${klaviyo_events.date_date} = ${last_touch_utm.order_date_date};;
+  }
 }
 
 explore: frontline_funnel {

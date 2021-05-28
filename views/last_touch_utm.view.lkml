@@ -48,8 +48,36 @@ view: last_touch_utm {
     sql: ${TABLE}.increment_id ;;
   }
 
+  dimension_group: order_date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.order_date ;;
+    convert_tz: no
+  }
+
+  dimension: order_revenue {
+    type: number
+    sql: ${TABLE}.order_revenue ;;
+  }
+
   measure: count {
-    type: count
-    drill_fields: [campaign_name]
+    type: count_distinct
+    sql: ${entity_id} ;;
+    drill_fields: [increment_id, entity_id, customer_id, campaign_name]
+  }
+
+  measure: total_sales {
+    type: sum_distinct
+    sql_distinct_key: ${entity_id} ;;
+    sql: ${order_revenue} ;;
+    drill_fields: [increment_id, entity_id, customer_id, campaign_name]
   }
 }
