@@ -1,5 +1,5 @@
-view: frontline_funnel {
-  sql_table_name: `leafy-habitat-174801.customer_journey.frontline_funnel`
+view: food_funnel {
+  sql_table_name: `leafy-habitat-174801.customer_journey.food_funnel`
     ;;
 
   dimension: bounced {
@@ -115,7 +115,6 @@ view: frontline_funnel {
   dimension: session_id {
     type: string
     sql: ${TABLE}.session_id ;;
-    primary_key: yes
   }
 
   dimension_group: started {
@@ -136,31 +135,6 @@ view: frontline_funnel {
   dimension: user_id {
     type: string
     sql: ${TABLE}.user_id ;;
-  }
-
-  dimension: step {
-    case: {
-      when: {
-        label: "LP"
-        sql: 1=1 ;;
-      }
-      when: {
-        label: "Karte page"
-        sql: 1=1 ;;
-      }
-      when: {
-        label: "Karte Completed"
-        sql: 1=1 ;;
-      }
-      when: {
-        label: "Cart"
-        sql: 1=1 ;;
-      }
-      when: {
-        label: "Order"
-        sql: 1=1 ;;
-      }
-    }
   }
 
   dimension_group: lead_page_visited {
