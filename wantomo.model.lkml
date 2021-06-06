@@ -9,6 +9,11 @@ datagroup: klaviyo_datagroup {
   max_cache_age: "24 hours"
   description: "Triggered when new Klaviyo emails arrived"
 }
+datagroup: segment_datagroup {
+  sql_trigger: SELECT max(timestamp) FROM `leafy-habitat-174801.dataform_segment.sessionized_pages` ;;
+  max_cache_age: "24 hours"
+  description: "Triggered when new Segment data arrived"
+}
 
 access_grant: access_grant_full {
   user_attribute: access_type
@@ -163,6 +168,7 @@ explore: klaviyo_events {
 
 explore: sessions {
   group_label: "Sessions"
+  persist_with: segment_datagroup
   join: daily_aggregated_kpi {
     relationship: one_to_one
     sql_on: ${sessions.started_date} = ${daily_aggregated_kpi.date_date} ;;
@@ -171,6 +177,7 @@ explore: sessions {
 
 explore: sessionized_pages {
   group_label: "Sessions"
+  persist_with: segment_datagroup
 }
 
 explore: daily_kpi_targets {
@@ -214,10 +221,12 @@ explore: sales_rfm_accumulative {
 
 explore: frontline_funnel {
   required_access_grants: [access_grant_full]
+  persist_with: segment_datagroup
 }
 
 explore: food_funnel {
   required_access_grants: [access_grant_full]
+  persist_with: segment_datagroup
 }
 
 explore: funnel_first_visit {
