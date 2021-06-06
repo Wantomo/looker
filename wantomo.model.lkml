@@ -78,7 +78,7 @@ explore: sales_item {
     relationship: many_to_one
     sql_on: ${sales_item.order_id} = ${sales_group_by_meat.entity_id} ;;
   }
-  sql_always_where: ${created_date} >= '2017-04-01' ;;
+  sql_always_where: ${sales.created_date} >= '2017-04-01' AND ${sales.status} IN ('processing','pending','complete','shipped');;
 }
 
 explore: customer {
