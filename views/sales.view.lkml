@@ -1,5 +1,5 @@
 view: sales {
-  sql_table_name: `leafy-habitat-174801.looker.sales`;;
+  sql_table_name: `leafy-habitat-174801.dataform_magento.sales`;;
   drill_fields: [order_detail*]
 
   dimension: applied_rule_ids {
@@ -155,6 +155,7 @@ view: sales {
   }
 
   dimension: is_subscription {
+    label: "Is Subscription Order"
     type: yesno
     sql: ${TABLE}.is_subscription = 1 ;;
   }
@@ -177,6 +178,27 @@ view: sales {
     ]
     sql: ${TABLE}.updated_at ;;
     convert_tz: no
+  }
+
+  dimension: order_sequence {
+    description: "Sequence of order per customer"
+    type: number
+    sql: ${TABLE}.order_sequence ;;
+  }
+
+  dimension: is_first_order {
+    type: yesno
+    sql:  ${order_sequence} = 1 ;;
+  }
+
+  dimension: is_first_repeat_order {
+    type: yesno
+    sql:  ${order_sequence} = 2 ;;
+  }
+
+  dimension: is_repeat_order {
+    type: yesno
+    sql:  ${order_sequence} > 1 ;;
   }
 
   measure: count {

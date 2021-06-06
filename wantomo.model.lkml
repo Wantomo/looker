@@ -26,10 +26,6 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${sales.entity_id} = ${sales_sequence.order_id} ;;
   }
-  join: sales_utm {
-    relationship: one_to_one
-    sql_on: ${sales.increment_id} = ${sales_utm.order_id} ;;
-  }
   join: last_touch_utm {
     relationship: one_to_one
     sql_on: ${sales.entity_id} = ${last_touch_utm.entity_id} ;;

@@ -1,5 +1,5 @@
 view: sales_item {
-  sql_table_name: `leafy-habitat-174801.looker.sales_item`
+  sql_table_name: `leafy-habitat-174801.dataform_magento.sales_item`
     ;;
 
   dimension: base_price_incl_tax {
