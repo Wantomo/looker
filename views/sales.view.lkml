@@ -87,11 +87,6 @@ view: sales {
     }
   }
 
-  dimension: customer_is_guest {
-    type: number
-    sql: ${TABLE}.customer_is_guest ;;
-  }
-
   dimension: customer_lastname {
     type: string
     sql: ${TABLE}.customer_lastname ;;

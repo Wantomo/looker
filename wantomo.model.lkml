@@ -12,7 +12,7 @@ datagroup: klaviyo_datagroup {
 
 explore: sales {
   group_label: "Sales"
-  sql_always_where: ${created_date} >= '2017-04-01' ;;
+  sql_always_where: ${sales.created_date} >= '2017-04-01' AND ${sales.status} IN ('processing','pending','complete','shipped');;
    join: sales_item {
     relationship: one_to_many
     sql_on: ${sales.entity_id} = ${sales_item.order_id} ;;
@@ -58,6 +58,7 @@ explore: sales {
 explore: sales_sequence {
   group_label: "Sales"
 }
+
 explore: sales_item {
   group_label: "Sales"
   join: pet {
@@ -223,18 +224,3 @@ explore: frontline_funnel {
 explore: food_funnel {
 
 }
-
-# # Select the views that should be a part of this model,
-# # and define the joins that connect them together.
-#
-# explore: order_items {
-#   join: orders {
-#     relationship: many_to_one
-#     sql_on: ${orders.id} = ${order_items.order_id} ;;
-#   }
-#
-#   join: users {
-#     relationship: many_to_one
-#     sql_on: ${users.id} = ${orders.user_id} ;;
-#   }
-# }
