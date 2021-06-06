@@ -10,6 +10,11 @@ datagroup: klaviyo_datagroup {
   description: "Triggered when new Klaviyo emails arrived"
 }
 
+access_grant: access_grant_full {
+  user_attribute: access_type
+  allowed_values: [ "full"]
+}
+
 explore: sales {
   group_label: "Sales"
   sql_always_where: ${sales.created_date} >= '2017-04-01' AND ${sales.status} IN ('processing','pending','complete','shipped');;
@@ -53,10 +58,6 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${sales.entity_id}=${sales_group_by_meat.entity_id} ;;
   }
-}
-
-explore: sales_sequence {
-  group_label: "Sales"
 }
 
 explore: sales_item {
@@ -155,22 +156,24 @@ explore: subscription {
   }
 }
 
-explore: sales_rfm {
-  group_label: "Sales"
-  always_filter: {
-    filters: [date_filter: "1 months ago"]
+explore: klaviyo_events {
+  persist_with: klaviyo_datagroup
+  join: last_touch_utm {
+    relationship: one_to_one
+    sql_on: ${klaviyo_events.utm} = ${last_touch_utm.campaign_name} AND ${klaviyo_events.date_date} = ${last_touch_utm.order_date_date};;
   }
 }
 
-explore: sales_rfm_monthly {
-  group_label: "Sales"
+explore: sessions {
+  group_label: "Sessions"
+  join: daily_aggregated_kpi {
+    relationship: one_to_one
+    sql_on: ${sessions.started_date} = ${daily_aggregated_kpi.date_date} ;;
+  }
 }
 
-explore: sales_rfm_accumulative {
-  group_label: "Sales"
-}
-
-explore: funnel_first_visit {
+explore: sessionized_pages {
+  group_label: "Sessions"
 }
 
 explore: daily_kpi_targets {
@@ -193,34 +196,33 @@ explore: google_ad_spending {
   group_label: "Digital Marketing"
 }
 
-explore: sessions {
-  group_label: "Sessions"
-  join: daily_aggregated_kpi {
-    relationship: one_to_one
-    sql_on: ${sessions.started_date} = ${daily_aggregated_kpi.date_date} ;;
-  }
-}
-
-explore: sessionized_pages {
-  group_label: "Sessions"
-}
-
 explore: daily_aggregated_kpi {
 
 }
 
-explore: klaviyo_events {
-  persist_with: klaviyo_datagroup
-  join: last_touch_utm {
-    relationship: one_to_one
-    sql_on: ${klaviyo_events.utm} = ${last_touch_utm.campaign_name} AND ${klaviyo_events.date_date} = ${last_touch_utm.order_date_date};;
+explore: sales_rfm {
+  group_label: "Sales"
+  always_filter: {
+    filters: [date_filter: "1 months ago"]
   }
 }
 
-explore: frontline_funnel {
+explore: sales_rfm_monthly {
+  group_label: "Sales"
+}
 
+explore: sales_rfm_accumulative {
+  group_label: "Sales"
+}
+
+explore: frontline_funnel {
+  required_access_grants: [access_grant_full]
 }
 
 explore: food_funnel {
+  required_access_grants: [access_grant_full]
+}
 
+explore: funnel_first_visit {
+  required_access_grants: [access_grant_full]
 }
