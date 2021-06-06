@@ -157,6 +157,7 @@ explore: subscription {
 }
 
 explore: klaviyo_events {
+  group_label: "Digital Marketing"
   persist_with: klaviyo_datagroup
   join: last_touch_utm {
     relationship: one_to_one
