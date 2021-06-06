@@ -220,15 +220,15 @@ explore: sales_rfm_accumulative {
 }
 
 explore: frontline_funnel {
-  required_access_grants: [access_grant_full]
+  #required_access_grants: [access_grant_full]
   persist_with: segment_datagroup
 }
 
 explore: food_funnel {
-  required_access_grants: [access_grant_full]
+  #required_access_grants: [access_grant_full]
   persist_with: segment_datagroup
 }
 
 explore: funnel_first_visit {
-  required_access_grants: [access_grant_full]
+  #required_access_grants: [access_grant_full]
 }
