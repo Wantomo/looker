@@ -57,23 +57,6 @@ explore: sales {
   }
 }
 
-explore: sales_item {
-  group_label: "Sales"
-  join: pet {
-    relationship: one_to_one
-    sql_on: ${sales_item.pet_id} = ${pet.pet_id} ;;
-  }
-  join: sales {
-    relationship: many_to_one
-    sql_on: ${sales_item.order_id} = ${sales.entity_id} ;;
-  }
-  join: sales_group_by_meat {
-    relationship: many_to_one
-    sql_on: ${sales_item.order_id} = ${sales_group_by_meat.entity_id} ;;
-  }
-  sql_always_where: ${sales.created_date} >= '2017-04-01' AND ${sales.status} IN ('processing','pending','complete','shipped');;
-}
-
 explore: customer {
   group_label: "Customer"
   join: pet {
