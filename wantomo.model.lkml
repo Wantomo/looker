@@ -138,6 +138,11 @@ explore: klaviyo_events {
   }
 }
 
+explore: klaviyo_events_aggregated {
+  group_label: "Digital Marketing"
+  persist_with: klaviyo_datagroup
+}
+
 explore: sessions {
   group_label: "Sessions"
   persist_with: segment_datagroup
