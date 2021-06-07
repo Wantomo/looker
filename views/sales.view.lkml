@@ -58,7 +58,7 @@ view: sales {
   }
 
   dimension_group: created {
-    label: "Order Date"
+    label: "Order"
     type: time
     timeframes: [
       raw,
@@ -76,16 +76,22 @@ view: sales {
   }
 
   dimension: customer_email {
+    label: "Email"
+    group_label: "Customer"
     type: string
     sql: ${TABLE}.customer_email ;;
   }
 
   dimension: customer_firstname {
+    label: "First name"
+    group_label: "Customer"
     type: string
     sql: ${TABLE}.customer_firstname ;;
   }
 
   dimension: customer_id {
+    label: "Id"
+    group_label: "Customer"
     type: number
     sql: ${TABLE}.customer_id ;;
     link: {
@@ -95,12 +101,14 @@ view: sales {
   }
 
   dimension: customer_lastname {
+    label: "Last name"
+    group_label: "Customer"
     type: string
     sql: ${TABLE}.customer_lastname ;;
   }
 
   dimension_group: delivery {
-    label: "Delivery Date"
+    label: "Delivery"
     type: time
     timeframes: [
       raw,
@@ -157,21 +165,6 @@ view: sales {
   dimension: status {
     type: string
     sql: ${TABLE}.status ;;
-  }
-
-  dimension_group: updated {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.updated_at ;;
-    convert_tz: no
   }
 
   dimension: order_sequence {
