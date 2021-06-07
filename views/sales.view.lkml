@@ -201,6 +201,17 @@ view: sales {
     sql:  ${order_sequence} > 1 ;;
   }
 
+  dimension: customer_segment {
+    description: "Customer Segment : 1st (1 order), 1st Repeat (2 orders), Repeater (3 to 4 orders), Loyal (5 and more orders)"
+    type: string
+    sql: CASE
+            WHEN ${order_sequence} = 1 THEN '1-First Order'
+            WHEN ${order_sequence} = 2 THEN '2-First Repeat Order'
+            WHEN ${order_sequence} BETWEEN 3 AND 4 THEN '3-Repeater'
+            WHEN ${order_sequence} > 4 THEN '4-Loyal'
+        END ;;
+  }
+
   measure: count {
     label: "Count of Order"
     type: count
