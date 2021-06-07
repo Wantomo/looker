@@ -27,13 +27,19 @@ view: sales_rfm_monthly {
             SELECT
               customer_id,
               TIMESTAMP_TRUNC(created_at, MONTH) as date,
-              order_id,
+              increment_id as order_id,
               base_grand_total,
-              customer_segment,
-              DATE_DIFF(DATE(LAG(DATETIME(created_at)) OVER (PARTITION BY customer_id ORDER BY order_id DESC)), DATE(DATETIME(created_at)), MONTH) AS recency,
+              CASE
+                WHEN order_sequence = 1 THEN '1-First Order'
+                WHEN order_sequence = 2 THEN '2-First Repeat Order'
+                WHEN order_sequence BETWEEN 3 AND 4 THEN '3-Repeater'
+                WHEN order_sequence > 4 THEN '4-Loyal'
+              END as customer_segment,
+              DATE_DIFF(DATE(LAG(DATETIME(created_at)) OVER (PARTITION BY customer_id ORDER BY entity_id DESC)), DATE(DATETIME(created_at)), MONTH) AS recency,
               order_sequence
-              FROM ${sales_sequence.SQL_TABLE_NAME}
-              WHERE customer_id is not null
+              FROM ${sales.SQL_TABLE_NAME}
+              WHERE customer_id is not null AND
+            status IN ('processing','pending','complete','shipped')
           )
           GROUP BY 1, 2
           ;;

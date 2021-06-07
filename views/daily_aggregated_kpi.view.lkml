@@ -14,7 +14,7 @@ view: daily_aggregated_kpi {
         count(order_id) as count_order,
         count(CASE WHEN order_sequence = 1 THEN order_id ELSE null END) as count_first_order,
         count(CASE WHEN order_sequence > 1 THEN order_id ELSE null END) as count_repeat_order
-      FROM sales_sequence as orders
+      FROM sales as orders
       GROUP BY 1),
       ad_spending as (SELECT
         TIMESTAMP(DATE(date)) as date,

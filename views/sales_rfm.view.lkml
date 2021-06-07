@@ -6,13 +6,14 @@ view: sales_rfm {
     sql:  SELECT
             customer_id,
             MAX(TIMESTAMP_TRUNC(created_at, MONTH)) as date,
-            count(order_id) as count_order,
+            count(increment_id) as count_order,
             SUM(base_grand_total) as total,
             MAX(order_sequence) as order_sequence
-          FROM ${sales_sequence.SQL_TABLE_NAME}
+          FROM ${sales.SQL_TABLE_NAME}
           WHERE
             customer_id is not null AND
-            TIMESTAMP_TRUNC(created_at, MONTH) < TIMESTAMP({% date_end date_filter %})
+            TIMESTAMP_TRUNC(created_at, MONTH) < TIMESTAMP({% date_end date_filter %}) AND
+            status IN ('processing','pending','complete','shipped')
           GROUP BY 1
           ;;
   }
