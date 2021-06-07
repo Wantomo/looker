@@ -67,10 +67,6 @@ explore: sales_item {
     relationship: many_to_one
     sql_on: ${sales_item.order_id} = ${sales.entity_id} ;;
   }
-  join: sales_sequence {
-    relationship: many_to_one
-    sql_on: ${sales_item.order_id} = ${sales_sequence.order_id} ;;
-  }
   join: sales_group_by_meat {
     relationship: many_to_one
     sql_on: ${sales_item.order_id} = ${sales_group_by_meat.entity_id} ;;
@@ -87,10 +83,6 @@ explore: customer {
   join: sales {
     relationship: one_to_many
     sql_on: ${customer.customer_id} = ${sales.customer_id};;
-  }
-  join: sales_sequence {
-    relationship: one_to_one
-    sql_on: ${sales.entity_id} = ${sales_sequence.order_id} ;;
   }
   join: customer_sales {
     relationship: one_to_one
@@ -130,10 +122,6 @@ explore: pet {
   join: sales {
     relationship: many_to_one
     sql_on: ${sales_item.order_id} = ${sales.entity_id} ;;
-  }
-  join: sales_sequence {
-    relationship: many_to_one
-    sql_on: ${sales_item.order_id} = ${sales_sequence.order_id} ;;
   }
 }
 
