@@ -176,10 +176,6 @@ explore: sessionized_pages {
   persist_with: segment_datagroup
 }
 
-explore: daily_kpi_targets {
-
-}
-
 explore: ga_daily_users {
   group_label: "Sessions"
 }
@@ -196,35 +192,45 @@ explore: google_ad_spending {
   group_label: "Digital Marketing"
 }
 
-explore: daily_aggregated_kpi {
-
-}
-
 explore: sales_rfm {
   group_label: "Sales"
   always_filter: {
     filters: [date_filter: "1 months ago"]
   }
+  hidden:yes
 }
 
 explore: sales_rfm_monthly {
   group_label: "Sales"
+  hidden:yes
 }
 
 explore: sales_rfm_accumulative {
   group_label: "Sales"
+  hidden:yes
+}
+
+explore: daily_kpi_targets {
+  hidden:yes
+}
+
+explore: daily_aggregated_kpi {
+  hidden:yes
 }
 
 explore: frontline_funnel {
   #required_access_grants: [access_grant_full]
   persist_with: segment_datagroup
+  hidden:yes
 }
 
 explore: food_funnel {
   #required_access_grants: [access_grant_full]
   persist_with: segment_datagroup
+  hidden:yes
 }
 
 explore: funnel_first_visit {
   #required_access_grants: [access_grant_full]
+  hidden:yes
 }
