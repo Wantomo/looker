@@ -75,10 +75,6 @@ explore: customer {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${acquisition_utm.customer_id} AND ${acquisition_utm.customer_id} is not null;;
   }
-  join: sales_rfm_accumulative {
-    relationship: one_to_one
-    sql_on: ${customer.customer_id} = ${sales_rfm_accumulative.customer_id};;
-  }
   join: subscription {
     relationship: one_to_many
     sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
