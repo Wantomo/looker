@@ -22,8 +22,11 @@ access_grant: access_grant_full {
 
 explore: sales {
   group_label: "Sales"
-  sql_always_where: ${sales.created_date} >= '2017-04-01' AND ${sales.status} IN ('processing','pending','complete','shipped');;
-   join: sales_item {
+  sql_always_where: ${sales.created_date} >= '2017-04-01';;
+  always_filter:{
+    filters: [status: "processing,pending,complete,shipped"]
+  }
+  join: sales_item {
     relationship: one_to_many
     sql_on: ${sales.entity_id} = ${sales_item.order_id} ;;
   }
