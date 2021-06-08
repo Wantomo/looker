@@ -115,17 +115,9 @@ explore: pet {
 
 explore: subscription {
   group_label: "Subscription"
-  join: customer {
-    relationship: one_to_one
-    sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
-  }
   join: quote {
     relationship: one_to_one
     sql_on: ${subscription.quote_id} = ${quote.entity_id} ;;
-  }
-  join: customer_sales {
-    relationship: one_to_one
-    sql_on: ${subscription.customer_id} = ${customer_sales.customer_id} ;;
   }
 }
 
