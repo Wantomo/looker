@@ -48,4 +48,13 @@ view: sales_group_by_meat {
           WHEN ${qty_of_chicken} >= 1 AND ${qty_of_beef} >= 1 THEN 'mixed'
           END ;;
   }
+
+  dimension: package_type {
+    type: string
+    sql:  CASE
+          WHEN ${qty_of_800g} = 0 AND ${qty_of_150g} >= 1 THEN 'sample'
+          WHEN ${qty_of_800g} >= 1 AND ${qty_of_150g} = 0 THEN 'normal'
+          WHEN ${qty_of_800g} >= 1 AND ${qty_of_150g} >= 1 THEN 'mixed'
+          END ;;
+  }
 }
