@@ -72,10 +72,6 @@ explore: customer {
     relationship: one_to_many
     sql_on: ${customer.customer_id} = ${pet.owner_id};;
   }
-  join: sales {
-    relationship: one_to_many
-    sql_on: ${customer.customer_id} = ${sales.customer_id};;
-  }
   join: customer_sales {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${customer_sales.customer_id};;
