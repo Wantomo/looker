@@ -102,15 +102,6 @@ explore: pet {
     type: left_outer
     sql_on: ${pet.owner_id} = ${customer.customer_id} ;;
   }
-  join: sales_item {
-    relationship: one_to_many
-    type: left_outer
-    sql_on: ${pet.pet_id} = ${sales_item.pet_id} ;;
-  }
-  join: sales {
-    relationship: many_to_one
-    sql_on: ${sales_item.order_id} = ${sales.entity_id} ;;
-  }
 }
 
 explore: subscription {
