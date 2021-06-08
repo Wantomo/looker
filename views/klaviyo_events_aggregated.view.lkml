@@ -94,6 +94,7 @@ view: klaviyo_events_aggregated {
               add_transactions
             WHERE type != "Drip"
           ;;
+      datagroup_trigger: klaviyo_datagroup
   }
 
   dimension_group: date {
