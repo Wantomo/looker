@@ -49,7 +49,7 @@ view: customer_sales {
           ON
             item.order_id = sales.entity_id) tm
         ON
-          sales.entity_id = tm.entity_id
+          sales.last_internal_order_id = tm.entity_id
      ;;
   }
 
