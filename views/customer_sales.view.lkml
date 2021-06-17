@@ -1,13 +1,55 @@
 view: customer_sales {
   derived_table: {
-    sql:  SELECT
+    sql:
+        SELECT
+          sales.*,
+          tm.increment_id as last_order_id,
+          tm.qty_of_800 as last_order_qty_of_800,
+          is_subscription as last_order_is_subscription
+        FROM (
+          SELECT
             customer_id,
             SUM(base_grand_total) AS lifetime_sales,
             MIN(created_at) AS first_order_date,
             MAX(created_at) AS last_order_date,
-            count(*) AS order_count
-          FROM ${sales.SQL_TABLE_NAME}
-          GROUP BY 1
+            MAX(order_sequence) AS order_count,
+            MAX(entity_id) AS last_internal_order_id
+          FROM
+            ${sales.SQL_TABLE_NAME}
+          GROUP BY
+            1) AS sales
+        LEFT JOIN (
+          SELECT
+            entity_id,
+            increment_id,
+            last_order_row,
+            qty_of_800,
+            is_subscription
+          FROM (
+            SELECT
+              entity_id,
+              increment_id,
+              is_subscription,
+              ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY entity_id DESC ) AS last_order_row
+            FROM
+              ${sales.SQL_TABLE_NAME}) AS sales
+          LEFT JOIN (
+            SELECT
+              order_id,
+              SUM(CASE
+                  WHEN sku IN ('FP-C-S-800', 'FP-B-S-800') THEN qty_ordered
+                ELSE
+                0
+              END
+                ) AS qty_of_800
+            FROM
+              ${sales_item.SQL_TABLE_NAME}
+            GROUP BY
+              1) AS item
+          ON
+            item.order_id = sales.entity_id) tm
+        ON
+          sales.entity_id = tm.entity_id
      ;;
   }
 
@@ -59,6 +101,21 @@ view: customer_sales {
     label: "Number of Orders"
     type: number
     sql: ${TABLE}.order_count ;;
+  }
+
+  dimension: last_order_qty_of_800 {
+    type: number
+    sql: ${TABLE}.last_order_qty_of_800 ;;
+  }
+
+  dimension: last_order_id {
+    type: string
+    sql: ${TABLE}.last_order_id ;;
+  }
+
+  dimension: last_order_is_subscription {
+    type: yesno
+    sql: ${TABLE}.last_order_is_subscription = 1 ;;
   }
 
   dimension: segment {

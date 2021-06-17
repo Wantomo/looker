@@ -247,6 +247,11 @@ view: pet {
     drill_fields: [pet_id]
   }
 
+  measure: count_unique {
+    type: count_distinct
+    sql: ${owner_id} ;;
+  }
+
   measure: avg_weight {
     type: average
     sql: ${weight} ;;

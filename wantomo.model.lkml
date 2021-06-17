@@ -84,6 +84,10 @@ explore: customer {
     relationship: one_to_many
     sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
   }
+  join: sessions {
+    relationship: one_to_many
+    sql_on: CAST(${customer.customer_id} as string) = ${sessions.user_id} ;;
+  }
 }
 
 explore: pet {
@@ -184,13 +188,20 @@ explore: frontline_funnel {
   hidden:yes
 }
 
-explore: food_funnel {
+explore: frontline_funnel_first_visit {
   #required_access_grants: [access_grant_full]
   persist_with: segment_datagroup
   hidden:yes
 }
 
-explore: funnel_first_visit {
+explore: food_funnel_first_visit {
   #required_access_grants: [access_grant_full]
+  persist_with: segment_datagroup
+  hidden:yes
+}
+
+explore: food_funnel {
+  #required_access_grants: [access_grant_full]
+  persist_with: segment_datagroup
   hidden:yes
 }
