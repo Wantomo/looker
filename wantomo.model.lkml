@@ -205,3 +205,29 @@ explore: food_funnel {
   persist_with: segment_datagroup
   hidden:yes
 }
+
+explore: survey_20210622_persona {
+  #required_access_grants: [access_grant_full]
+  hidden:yes
+  join: customer {
+    relationship: one_to_one
+    sql_on: CAST(${customer.customer_id} as string) = ${survey_20210622_persona.customer_id} ;;
+  }
+  join: customer_sales {
+    relationship: one_to_one
+    sql_on: ${customer.customer_id} = ${customer_sales.customer_id};;
+  }
+  join: subscription {
+    relationship: one_to_many
+    sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
+  }
+  join: pet {
+    relationship: one_to_many
+    sql_on: ${customer.customer_id} = ${pet.owner_id};;
+  }
+  join: pet_sequence {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${pet.pet_id} = ${pet_sequence.pet_id} ;;
+  }
+}
