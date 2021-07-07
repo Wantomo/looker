@@ -13,6 +13,16 @@ view: customer {
     }
   }
 
+  dimension: service {
+    label: "Service type"
+    description: "Food (= 1)/frontline (= 2)"
+    type: string
+    sql:  CASE
+            WHEN ${TABLE}.service = 2 THEN 'Frontline'
+            ELSE 'Food'
+          END ;;
+  }
+
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
