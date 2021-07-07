@@ -173,6 +173,18 @@ view: sales {
     sql: ${TABLE}.order_sequence ;;
   }
 
+  dimension: order_sequence_food {
+    description: "Sequence of food order per customer"
+    type: number
+    sql: ${TABLE}.order_sequence_food ;;
+  }
+
+  dimension: order_sequence_frontline {
+    description: "Sequence of frontline order per customer"
+    type: number
+    sql: ${TABLE}.order_sequence_frontline ;;
+  }
+
   dimension: is_first_order {
     type: yesno
     sql:  ${order_sequence} = 1 ;;
