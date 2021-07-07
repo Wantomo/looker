@@ -148,6 +148,11 @@ explore: online_ad_spending {
   group_label: "Digital Marketing"
 }
 
+
+explore: daily_kpi_targets {
+  group_label: "Digital Marketing"
+}
+
 explore: facebook_ad_spending {
   group_label: "Digital Marketing"
 }
@@ -171,10 +176,6 @@ explore: sales_rfm_monthly {
 
 explore: sales_rfm_accumulative {
   group_label: "Sales"
-  hidden:yes
-}
-
-explore: daily_kpi_targets {
   hidden:yes
 }
 
