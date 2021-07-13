@@ -23,8 +23,13 @@ view: line_user {
   }
 
   dimension: is_active {
-    type: number
-    sql: ${TABLE}.is_active ;;
+    type: yesno
+    sql: CAST(${TABLE}.is_active AS BOOLEAN) = true ;;
+  }
+
+  dimension: is_linked_user {
+    type: yesno
+    sql:  ${user_id} IS NOT NULL ;;
   }
 
   dimension: line_id {
