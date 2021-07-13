@@ -39,6 +39,10 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${sales.customer_id} = ${customer.customer_id} ;;
   }
+  join: line_user {
+    relationship: one_to_one
+    sql_on: ${customer.customer_id} = ${line_user.user_id} ;;
+  }
   join: acquisition_utm {
     relationship: one_to_one
     sql_on: ${sales.customer_id} = ${acquisition_utm.customer_id} AND ${acquisition_utm.customer_id} is not null;;
@@ -88,6 +92,10 @@ explore: customer {
     relationship: one_to_many
     sql_on: CAST(${customer.customer_id} as string) = ${sessions.user_id} ;;
   }
+  join: line_user {
+    relationship: one_to_one
+    sql_on: ${customer.customer_id} = ${line_user.user_id} ;;
+  }
 }
 
 explore: pet {
@@ -109,6 +117,13 @@ explore: subscription {
   join: quote {
     relationship: one_to_one
     sql_on: ${subscription.quote_id} = ${quote.entity_id} ;;
+  }
+}
+
+explore: line_user {
+  join: customer {
+    relationship: one_to_one
+    sql_on: ${line_user.user_id} = ${customer.customer_id} ;;
   }
 }
 
