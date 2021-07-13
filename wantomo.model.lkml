@@ -59,6 +59,10 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${sales.entity_id}=${sales_group_by_meat.entity_id} ;;
   }
+  join: subscription {
+    relationship: one_to_one
+    sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
+  }
 }
 
 explore: sales_without_filters {
@@ -85,7 +89,7 @@ explore: customer {
     sql_on: ${customer.customer_id} = ${acquisition_utm.customer_id} AND ${acquisition_utm.customer_id} is not null;;
   }
   join: subscription {
-    relationship: one_to_many
+    relationship: one_to_one
     sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
   }
   join: sessions {
@@ -245,5 +249,9 @@ explore: survey_20210622_persona {
     relationship: one_to_one
     type: left_outer
     sql_on: ${pet.pet_id} = ${pet_sequence.pet_id} ;;
+  }
+  join: line_user {
+    relationship: one_to_one
+    sql_on: ${customer.customer_id} = ${line_user.user_id} ;;
   }
 }
