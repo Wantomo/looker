@@ -147,9 +147,35 @@ view: food_funnel_first_visit {
     sql: ${TABLE}.user_id ;;
   }
 
+  dimension: date_diff_day {
+    type: number
+    label: "By Day"
+    group_label: "Difference"
+    sql: date_diff(${sales_order_date},${first_visit_date}, DAY) ;;
+  }
+
+  dimension: datetime_diff_day {
+    type: number
+    label: "By Hour"
+    group_label: "Difference"
+    sql: TIMESTAMP_DIFF(${TABLE}.sales_order_date,${TABLE}.first_visit, HOUR) ;;
+  }
+
+  dimension: datetime_karte_diff_day {
+    type: number
+    label: "Karte By Minute"
+    group_label: "Difference"
+    sql: TIMESTAMP_DIFF(${TABLE}.karte_result_date,${TABLE}.create_karte_date, MINUTE) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [campaign_name]
+  }
+
+  measure: average_datetime_karte_diff {
+    type: median
+    sql: ${datetime_karte_diff_day} ;;
   }
 
   measure: count_landing_page {

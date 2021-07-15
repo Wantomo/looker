@@ -142,9 +142,21 @@ view: frontline_funnel_first_visit {
     sql: ${TABLE}.user_id ;;
   }
 
+  dimension: date_diff_day {
+    type: number
+    label: "By Day"
+    group_label: "Difference"
+    sql: date_diff(${sales_order_date},${first_visit_date}, DAY) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [campaign_name]
+  }
+
+  measure: average_date_diff_day {
+    type: average
+    sql: ${date_diff_day} ;;
   }
 
   measure: count_landing_page {
