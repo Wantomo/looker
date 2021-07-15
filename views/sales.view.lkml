@@ -2,6 +2,11 @@ view: sales {
   sql_table_name: `leafy-habitat-174801.dataform_magento.sales`;;
   drill_fields: [order_detail*]
 
+  dimension: applied_rule_ids {
+    type: string
+    sql: ${TABLE}.applied_rule_ids ;;
+  }
+
   dimension: base_discount_amount {
     label: "Discount"
     group_label: "Totals"
