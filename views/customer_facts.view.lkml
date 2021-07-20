@@ -9,8 +9,8 @@ view: customer_facts {
 
   dimension: customer_id {
     type: number
-    sql: ${TABLE}.customer_id ;;
     primary_key: yes
+    sql: ${TABLE}.customer_id ;;
   }
 
   dimension: first_order_id {
@@ -30,7 +30,6 @@ view: customer_facts {
       year
     ]
     sql: ${TABLE}.first_purchase_date ;;
-    convert_tz: no
   }
 
   dimension: first_purchase_date_diff_day {
@@ -43,19 +42,46 @@ view: customer_facts {
     sql: ${TABLE}.first_purchase_date_diff_hour ;;
   }
 
-  dimension: first_purchase_is_subscription {
-    type: yesno
-    sql: ${TABLE}.first_purchase_is_subscription = 1;;
+  dimension: first_purchase_gram_per_pet {
+    type: number
+    sql: ${TABLE}.first_purchase_gram_per_pet ;;
+  }
+
+  dimension: first_purchase_gram_per_pet_tier {
+    type: tier
+    tiers: [150,800,1600,2400,3200]
+    style: integer
+    sql: ${first_purchase_gram_per_pet} ;;
+  }
+
+  dimension: first_purchase_gram_total {
+    type: number
+    sql: ${TABLE}.first_purchase_gram_total ;;
   }
 
   dimension: first_purchase_has_discount {
     type: yesno
-    sql: ${TABLE}.first_purchase_has_discount = 1;;
+    sql: ${TABLE}.first_purchase_has_discount = 1 ;;
   }
 
-  dimension: first_purchase_has_50_percent {
+  dimension: first_purchase_is_subscription {
     type: yesno
-    sql: ${TABLE}.first_purchase_has_50_percent = 1;;
+    sql: ${TABLE}.first_purchase_is_subscription = 1 ;;
+  }
+
+  dimension: first_purchase_meat {
+    type: string
+    sql: ${TABLE}.first_purchase_meat ;;
+  }
+
+  dimension: first_purchase_pet_count {
+    type: number
+    sql: ${TABLE}.first_purchase_pet_count ;;
+  }
+
+  dimension: first_purchase_product {
+    type: string
+    sql: ${TABLE}.first_purchase_product ;;
   }
 
   dimension: last_order_id {
@@ -75,12 +101,43 @@ view: customer_facts {
       year
     ]
     sql: ${TABLE}.last_purchase_date ;;
-    convert_tz: no
+  }
+
+  dimension: last_purchase_gram_per_pet {
+    type: number
+    sql: ${TABLE}.last_purchase_gram_per_pet ;;
+  }
+
+  dimension: last_purchase_gram_per_pet_tier {
+    type: tier
+    tiers: [150,800,1600,2400,3200]
+    style: integer
+    sql: ${last_purchase_gram_per_pet} ;;
+  }
+
+  dimension: last_purchase_gram_total {
+    type: number
+    sql: ${TABLE}.last_purchase_gram_total ;;
   }
 
   dimension: last_purchase_is_subscription {
     type: yesno
-    sql: ${TABLE}.last_purchase_is_subscription = 1;;
+    sql: ${TABLE}.last_purchase_is_subscription = 1 ;;
+  }
+
+  dimension: last_purchase_meat {
+    type: string
+    sql: ${TABLE}.last_purchase_meat ;;
+  }
+
+  dimension: last_purchase_pet_count {
+    type: number
+    sql: ${TABLE}.last_purchase_pet_count ;;
+  }
+
+  dimension: last_purchase_product {
+    type: string
+    sql: ${TABLE}.last_purchase_product ;;
   }
 
   dimension: lifetime_sales {
@@ -110,7 +167,6 @@ view: customer_facts {
       year
     ]
     sql: ${TABLE}.second_purchase_date ;;
-    convert_tz: no
   }
 
   dimension: second_purchase_date_diff_day {
@@ -118,14 +174,53 @@ view: customer_facts {
     sql: ${TABLE}.second_purchase_date_diff_day ;;
   }
 
+  dimension: second_purchase_date_diff_day_tier {
+    type: tier
+    tiers: [0,7,14,21,28,35,42,49,56]
+    style: integer
+    sql: ${second_purchase_date_diff_day} ;;
+  }
+
+  dimension: second_purchase_gram_per_pet {
+    type: number
+    sql: ${TABLE}.second_purchase_gram_per_pet ;;
+  }
+
+  dimension: second_purchase_gram_per_pet_tier {
+    type: tier
+    tiers: [150,800,1600,2400,3200]
+    style: integer
+    sql: ${second_purchase_gram_per_pet} ;;
+  }
+
+  dimension: second_purchase_gram_total {
+    type: number
+    sql: ${TABLE}.second_purchase_gram_total ;;
+  }
+
   dimension: second_purchase_has_discount {
     type: yesno
-    sql: ${TABLE}.second_purchase_has_discount = 1;;
+    sql: ${TABLE}.second_purchase_has_discount = 1 ;;
   }
 
   dimension: second_purchase_is_subscription {
     type: yesno
-    sql: ${TABLE}.second_purchase_is_subscription = 1;;
+    sql: ${TABLE}.second_purchase_is_subscription = 1 ;;
+  }
+
+  dimension: second_purchase_meat {
+    type: string
+    sql: ${TABLE}.second_purchase_meat ;;
+  }
+
+  dimension: second_purchase_pet_count {
+    type: number
+    sql: ${TABLE}.second_purchase_pet_count ;;
+  }
+
+  dimension: second_purchase_product {
+    type: string
+    sql: ${TABLE}.second_purchase_product ;;
   }
 
   dimension: third_order_id {
@@ -145,7 +240,6 @@ view: customer_facts {
       year
     ]
     sql: ${TABLE}.third_purchase_date ;;
-    convert_tz: no
   }
 
   dimension: third_purchase_date_diff_day {
@@ -153,9 +247,48 @@ view: customer_facts {
     sql: ${TABLE}.third_purchase_date_diff_day ;;
   }
 
+  dimension: third_purchase_date_diff_day_tier {
+    type: tier
+    tiers: [0,7,14,21,28,35,42,49,56]
+    style: integer
+    sql: ${third_purchase_date_diff_day} ;;
+  }
+
+  dimension: third_purchase_gram_per_pet {
+    type: number
+    sql: ${TABLE}.third_purchase_gram_per_pet ;;
+  }
+
+  dimension: third_purchase_gram_per_pet_tier {
+    type: tier
+    tiers: [150,800,1600,2400,3200]
+    style: integer
+    sql: ${third_purchase_gram_per_pet} ;;
+  }
+
+  dimension: third_purchase_gram_total {
+    type: number
+    sql: ${TABLE}.third_purchase_gram_total ;;
+  }
+
   dimension: third_purchase_is_subscription {
     type: yesno
-    sql: ${TABLE}.third_purchase_is_subscription = 1;;
+    sql: ${TABLE}.third_purchase_is_subscription = 1 ;;
+  }
+
+  dimension: third_purchase_meat {
+    type: string
+    sql: ${TABLE}.third_purchase_meat ;;
+  }
+
+  dimension: third_purchase_pet_count {
+    type: number
+    sql: ${TABLE}.third_purchase_pet_count ;;
+  }
+
+  dimension: third_purchase_product {
+    type: string
+    sql: ${TABLE}.third_purchase_product ;;
   }
 
   measure: count {
