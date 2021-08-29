@@ -7,6 +7,13 @@ view: customer_facts {
     sql: ${TABLE}.average_date_diff ;;
   }
 
+  dimension: average_date_diff_day_tier {
+    type: tier
+    tiers: [0,7,14,21,28,35,42,49,56]
+    style: integer
+    sql: ${average_date_diff} ;;
+  }
+
   dimension: customer_id {
     type: number
     primary_key: yes
@@ -294,5 +301,41 @@ view: customer_facts {
   measure: count {
     type: count
     drill_fields: []
+  }
+
+  measure: avg_first_purchase_date_diff {
+    type: average
+    sql: ${first_purchase_date_diff_day} ;;
+    value_format: "0"
+  }
+
+  measure: mdn_first_purchase_date_diff {
+    type: median
+    sql: ${first_purchase_date_diff_day} ;;
+    value_format: "0"
+  }
+
+  measure: avg_second_purchase_date_diff {
+    type: average
+    sql: ${second_purchase_date_diff_day} ;;
+    value_format: "0"
+  }
+
+  measure: mdn_second_purchase_date_diff {
+    type: median
+    sql: ${second_purchase_date_diff_day} ;;
+    value_format: "0"
+  }
+
+  measure: avg_third_purchase_date_diff {
+    type: average
+    sql: ${third_purchase_date_diff_day} ;;
+    value_format: "0"
+  }
+
+  measure: mdn_third_purchase_date_diff {
+    type: median
+    sql: ${third_purchase_date_diff_day} ;;
+    value_format: "0"
   }
 }
