@@ -5,6 +5,7 @@ view: customer_facts {
   dimension: average_date_diff {
     type: number
     sql: ${TABLE}.average_date_diff ;;
+    value_format: "0"
   }
 
   dimension: average_date_diff_day_tier {
@@ -119,6 +120,19 @@ view: customer_facts {
     sql_end: CURRENT_DATE("Asia/Tokyo");;
   }
 
+  dimension: last_purchase_date_diff_delta_with_average {
+    type: number
+    sql: ${days_last_purchase_date_diff_day} - ${average_date_diff};;
+    value_format: "0"
+  }
+
+  dimension: last_purchase_date_diff_delta_with_average_tier {
+    type: tier
+    tiers: [0,7,14,21,28,35,42,49,56]
+    style: integer
+    sql: ${last_purchase_date_diff_delta_with_average} ;;
+  }
+
   dimension: last_purchase_gram_per_pet {
     type: number
     sql: ${TABLE}.last_purchase_gram_per_pet ;;
@@ -164,6 +178,13 @@ view: customer_facts {
   dimension: order_count {
     type: number
     sql: ${TABLE}.order_count ;;
+  }
+
+  dimension: order_count_tier {
+    type: tier
+    tiers: [1,2,3,4,5,10,20]
+    style: integer
+    sql: ${order_count} ;;
   }
 
   dimension: second_order_id {
