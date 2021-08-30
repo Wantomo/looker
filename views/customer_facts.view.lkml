@@ -37,6 +37,7 @@ view: customer_facts {
       year
     ]
     sql: ${TABLE}.first_purchase_date ;;
+    convert_tz: no
   }
 
   dimension: first_purchase_date_diff_day {
@@ -108,6 +109,14 @@ view: customer_facts {
       year
     ]
     sql: ${TABLE}.last_purchase_date ;;
+    convert_tz: no
+  }
+
+  dimension_group: last_purchase_date_diff_day {
+    type: duration
+    intervals: [day]
+    sql_start: ${last_purchase_date} ;;
+    sql_end: CURRENT_DATE("Asia/Tokyo");;
   }
 
   dimension: last_purchase_gram_per_pet {
@@ -174,6 +183,7 @@ view: customer_facts {
       year
     ]
     sql: ${TABLE}.second_purchase_date ;;
+    convert_tz: no
   }
 
   dimension: second_purchase_date_diff_day {
@@ -247,6 +257,7 @@ view: customer_facts {
       year
     ]
     sql: ${TABLE}.third_purchase_date ;;
+    convert_tz: no
   }
 
   dimension: third_purchase_date_diff_day {
