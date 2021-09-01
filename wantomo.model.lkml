@@ -112,6 +112,10 @@ explore: customer {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${line_user.user_id} ;;
   }
+  join: survey_20210622_persona {
+    relationship: one_to_one
+    sql_on: CAST(${customer.customer_id} as string) = ${survey_20210622_persona.customer_id} ;;
+  }
 }
 
 explore: pet {
