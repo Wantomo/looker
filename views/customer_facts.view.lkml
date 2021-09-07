@@ -25,26 +25,6 @@ view: customer_facts {
     sql: ${TABLE}.avg_monthly_orders_since_registration ;;
   }
 
-  dimension_group: first_subscription {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.first_subscription_date ;;
-    convert_tz: no
-  }
-
-  dimension: first_subscription_sequence {
-    type: number
-    sql: ${TABLE}.first_subscription_sequence ;;
-  }
-
   dimension: customer_id {
     type: number
     primary_key: yes
@@ -121,6 +101,26 @@ view: customer_facts {
   dimension: first_purchase_product {
     type: string
     sql: ${TABLE}.first_purchase_product ;;
+  }
+
+  dimension_group: first_subscription {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.first_subscription_date ;;
+    convert_tz: no
+  }
+
+  dimension: first_subscription_sequence {
+    type: number
+    sql: ${TABLE}.first_subscription_sequence ;;
   }
 
   dimension: last_order_id {
@@ -200,6 +200,46 @@ view: customer_facts {
     sql: ${TABLE}.last_purchase_product ;;
   }
 
+  dimension_group: last_regular {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_regular_date ;;
+    convert_tz: no
+  }
+
+  dimension: last_regular_sequence {
+    type: number
+    sql: ${TABLE}.last_regular_sequence ;;
+  }
+
+  dimension_group: last_subscription {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_subscription_date ;;
+    convert_tz: no
+  }
+
+  dimension: last_subscription_sequence {
+    type: number
+    sql: ${TABLE}.last_subscription_sequence ;;
+  }
+
   dimension: lifetime_sales {
     type: number
     sql: ${TABLE}.lifetime_sales ;;
@@ -215,6 +255,18 @@ view: customer_facts {
     tiers: [1,2,3,4,5,10,20]
     style: integer
     sql: ${order_count} ;;
+  }
+
+  dimension: order_count_subscription {
+    type: number
+    sql: ${TABLE}.order_count_subscription ;;
+  }
+
+  dimension: order_count_subscription_tier {
+    type: tier
+    tiers: [1,2,3,4,5,10,20]
+    style: integer
+    sql: ${order_count_subscription} ;;
   }
 
   dimension: second_order_id {
@@ -289,6 +341,11 @@ view: customer_facts {
   dimension: second_purchase_product {
     type: string
     sql: ${TABLE}.second_purchase_product ;;
+  }
+
+  dimension: switch_from_sub_to_regular {
+    type: yesno
+    sql: ${TABLE}.switch_from_sub_to_regular = 1 ;;
   }
 
   dimension: third_order_id {
@@ -398,6 +455,18 @@ view: customer_facts {
   measure: mdn_third_purchase_date_diff {
     type: median
     sql: ${third_purchase_date_diff_day} ;;
+    value_format: "0"
+  }
+
+  measure: mdn_average_date_diff {
+    type: median
+    sql: ${average_date_diff} ;;
+    value_format: "0"
+  }
+
+  measure: mdn_first_subscription_sequence {
+    type: median
+    sql: ${first_subscription_sequence} ;;
     value_format: "0"
   }
 }
