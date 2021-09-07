@@ -264,7 +264,7 @@ view: customer_facts {
 
   dimension: order_count_subscription_tier {
     type: tier
-    tiers: [1,2,3,4,5,10,20]
+    tiers: [1,5,10,20,30]
     style: integer
     sql: ${order_count_subscription} ;;
   }
