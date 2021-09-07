@@ -469,4 +469,10 @@ view: customer_facts {
     sql: ${first_subscription_sequence} ;;
     value_format: "0"
   }
+
+  measure: mdn_last_subscription_sequence {
+    type: median
+    sql: ${last_subscription_sequence} ;;
+    value_format: "0"
+  }
 }
