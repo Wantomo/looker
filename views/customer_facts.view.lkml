@@ -15,6 +15,36 @@ view: customer_facts {
     sql: ${average_date_diff} ;;
   }
 
+  dimension: months_since_registration {
+    type: number
+    sql: ${TABLE}.months_since_registration ;;
+  }
+
+  dimension: avg_monthly_orders_since_registration {
+    type: number
+    sql: ${TABLE}.avg_monthly_orders_since_registration ;;
+  }
+
+  dimension_group: first_subscription {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.first_subscription_date ;;
+    convert_tz: no
+  }
+
+  dimension: first_subscription_sequence {
+    type: number
+    sql: ${TABLE}.first_subscription_sequence ;;
+  }
+
   dimension: customer_id {
     type: number
     primary_key: yes

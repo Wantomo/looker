@@ -36,7 +36,7 @@ explore: sales {
     sql_on: ${sales.entity_id} = ${first_touch_utm.entity_id} ;;
   }
   join: customer {
-    relationship: one_to_one
+    relationship: many_to_one
     sql_on: ${sales.customer_id} = ${customer.customer_id} ;;
   }
   join: line_user {
