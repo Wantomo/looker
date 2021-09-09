@@ -34,19 +34,15 @@ view: sales_sequence {
     sql: ${TABLE}.churn_group ;;
   }
 
-  # Here's what a typical dimension looks like in LookML.
-  # A dimension is a groupable field that can be used to filter query results.
-  # This dimension will be called "Churn Group" in Explore.
-
   dimension: churn_group_name {
-    type: number
+    type: string
     sql:  CASE
             WHEN ${churn_group} = 1 THEN 'Low (+30d)'
             WHEN ${churn_group} = 2 THEN 'Medium (+60d)'
             WHEN ${churn_group} = 3 THEN 'High (+90d)'
             WHEN ${churn_group} = 4 THEN 'Very High (+150d)'
             WHEN ${churn_group} = 5 THEN 'Sayonara (+270d)'
-            ELSE 'Not churned'
+            WHEN ${churn_group} = 0 THEN 'Not churned'
           END;;
   }
 

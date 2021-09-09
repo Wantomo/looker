@@ -25,6 +25,38 @@ view: customer_facts {
     sql: ${TABLE}.avg_monthly_orders_since_registration ;;
   }
 
+  dimension_group: churn {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.churn_date ;;
+    convert_tz: no
+  }
+
+  dimension: churn_group {
+    type: number
+    sql: ${TABLE}.churn_group ;;
+  }
+
+  dimension: churn_group_name {
+    type: string
+    sql:  CASE
+            WHEN ${churn_group} = 1 THEN 'Low (+30d)'
+            WHEN ${churn_group} = 2 THEN 'Medium (+60d)'
+            WHEN ${churn_group} = 3 THEN 'High (+90d)'
+            WHEN ${churn_group} = 4 THEN 'Very High (+150d)'
+            WHEN ${churn_group} = 5 THEN 'Sayonara (+270d)'
+            WHEN ${churn_group} = 0 THEN 'Not churned'
+          END;;
+  }
+
   dimension: customer_id {
     type: number
     primary_key: yes
