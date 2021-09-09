@@ -470,6 +470,12 @@ view: customer_facts {
     value_format: "0"
   }
 
+  measure: mdn_last_regular_sequence {
+    type: median
+    sql: ${last_regular_sequence} ;;
+    value_format: "0"
+  }
+
   measure: mdn_last_subscription_sequence {
     type: median
     sql: ${last_subscription_sequence} ;;
