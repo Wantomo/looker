@@ -63,6 +63,10 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${sales.entity_id}=${sales_food_facts.entity_id} ;;
   }
+  join: sales_sequence {
+    relationship: one_to_one
+    sql_on: ${sales.entity_id}=${sales_sequence.entity_id} ;;
+  }
   join: sales_group_by_meat {
     relationship: one_to_one
     sql_on: ${sales.entity_id}=${sales_group_by_meat.entity_id} ;;

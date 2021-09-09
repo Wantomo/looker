@@ -76,6 +76,7 @@ view: sales_sequence {
   }
 
   dimension: entity_id {
+    primary_key: yes
     type: number
     sql: ${TABLE}.entity_id ;;
   }
