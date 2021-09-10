@@ -38,7 +38,7 @@ view: sales_rfm_monthly {
               DATE_DIFF(DATE(LAG(DATETIME(created_at)) OVER (PARTITION BY customer_id ORDER BY entity_id DESC)), DATE(DATETIME(created_at)), MONTH) AS recency,
               order_sequence
               FROM ${sales.SQL_TABLE_NAME}
-              WHERE customer_id is not null AND
+              WHERE order_type = 1 AND customer_id is not null AND
             status IN ('processing','pending','complete','shipped')
           )
           GROUP BY 1, 2

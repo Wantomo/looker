@@ -11,6 +11,7 @@ view: sales_rfm {
             MAX(order_sequence) as order_sequence
           FROM ${sales.SQL_TABLE_NAME}
           WHERE
+            order_type = 1 AND
             customer_id is not null AND
             TIMESTAMP_TRUNC(created_at, MONTH) < TIMESTAMP({% date_end date_filter %}) AND
             status IN ('processing','pending','complete','shipped')

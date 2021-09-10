@@ -200,6 +200,11 @@ explore: google_ad_spending {
   group_label: "Digital Marketing"
 }
 
+explore: sales_churn {
+  group_label: "Sales"
+  hidden:yes
+}
+
 explore: sales_rfm {
   group_label: "Sales"
   always_filter: {
