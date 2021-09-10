@@ -277,6 +277,13 @@ view: customer_facts {
     sql: ${TABLE}.lifetime_sales ;;
   }
 
+  dimension: lifetime_sales_tier {
+    type: tier
+    tiers: [1,10000,50000,100000]
+    style: integer
+    sql: ${lifetime_sales} ;;
+  }
+
   dimension: order_count {
     type: number
     sql: ${TABLE}.order_count ;;
@@ -284,7 +291,7 @@ view: customer_facts {
 
   dimension: order_count_tier {
     type: tier
-    tiers: [1,2,3,4,5,10,20]
+    tiers: [1,2,3,5,10,20]
     style: integer
     sql: ${order_count} ;;
   }
@@ -296,7 +303,7 @@ view: customer_facts {
 
   dimension: order_count_subscription_tier {
     type: tier
-    tiers: [1,5,10,20,30]
+    tiers: [1,2,3,5,10,20]
     style: integer
     sql: ${order_count_subscription} ;;
   }
@@ -451,7 +458,7 @@ view: customer_facts {
 
   measure: count {
     type: count
-    drill_fields: []
+    drill_fields: [customer_id]
   }
 
   measure: avg_first_purchase_date_diff {
