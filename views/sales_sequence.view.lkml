@@ -112,6 +112,11 @@ view: sales_sequence {
     sql: ${TABLE}.order_sequence ;;
   }
 
+  dimension: subscription_sequence {
+    type: number
+    sql: ${TABLE}.subscription_sequence ;;
+  }
+
   # A measure is a field that uses a SQL aggregate function. Here are count, sum, and average
   # measures for numeric dimensions, but you can also add measures of many different types.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.

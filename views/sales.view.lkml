@@ -178,16 +178,37 @@ view: sales {
     sql: ${TABLE}.order_sequence ;;
   }
 
+  dimension: order_sequence_tier {
+    type: tier
+    tiers: [1,2,3,5,10,20]
+    style: integer
+    sql: ${order_sequence} ;;
+  }
+
   dimension: order_sequence_food {
     description: "Sequence of food order per customer"
     type: number
     sql: ${TABLE}.order_sequence_food ;;
   }
 
+  dimension: order_sequence_food_tier {
+    type: tier
+    tiers: [1,2,3,5,10,20]
+    style: integer
+    sql: ${order_sequence_food} ;;
+  }
+
   dimension: order_sequence_frontline {
     description: "Sequence of frontline order per customer"
     type: number
     sql: ${TABLE}.order_sequence_frontline ;;
+  }
+
+  dimension: order_sequence_frontline_tier {
+    type: tier
+    tiers: [1,2,3,5,10,20]
+    style: integer
+    sql: ${order_sequence_frontline} ;;
   }
 
   dimension: is_first_order {
