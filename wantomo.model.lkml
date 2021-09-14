@@ -205,6 +205,11 @@ explore: sales_churn {
   hidden:yes
 }
 
+explore: sales_monthly_subscriber {
+  group_label: "Sales"
+  hidden:yes
+}
+
 explore: sales_rfm {
   group_label: "Sales"
   always_filter: {
