@@ -256,6 +256,9 @@ explore: food_funnel {
   hidden:yes
 }
 
+explore: subscription_cancellation {
+}
+
 explore: survey_20210622_persona {
   #required_access_grants: [access_grant_full]
   hidden:yes
