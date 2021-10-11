@@ -155,6 +155,13 @@ view: customer_facts {
     sql: ${TABLE}.first_subscription_sequence ;;
   }
 
+  dimension: first_subscription_sequence_tier {
+    type: tier
+    tiers: [1,2,3,5,10,20]
+    style: integer
+    sql: ${first_subscription_sequence} ;;
+  }
+
   dimension: last_order_id {
     type: string
     sql: ${TABLE}.last_order_id ;;
