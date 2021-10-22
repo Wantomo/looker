@@ -20,6 +20,7 @@ view: line_user {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    convert_tz: no
   }
 
   dimension: is_active {
@@ -50,10 +51,35 @@ view: line_user {
       year
     ]
     sql: ${TABLE}.updated_at ;;
+    convert_tz: no
   }
 
   measure: count {
     type: count
+    drill_fields: [user_id]
+  }
+
+  measure: count_active_user {
+    type: count
+    filters: [is_active: "yes"]
+    drill_fields: [user_id]
+  }
+
+  measure: count_inactive_user {
+    type: count
+    filters: [is_active: "no"]
+    drill_fields: [user_id]
+  }
+
+  measure: count_linked_user {
+    type: count
+    filters: [is_linked_user: "yes", is_active: "yes"]
+    drill_fields: [user_id]
+  }
+
+  measure: count_inactive_linked_user {
+    type: count
+    filters: [is_linked_user: "yes", is_active: "no"]
     drill_fields: [user_id]
   }
 }

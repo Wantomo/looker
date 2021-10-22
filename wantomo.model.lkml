@@ -144,13 +144,6 @@ explore: subscription {
   }
 }
 
-explore: line_user {
-  join: customer {
-    relationship: one_to_one
-    sql_on: ${line_user.user_id} = ${customer.customer_id} ;;
-  }
-}
-
 explore: klaviyo_events {
   group_label: "Digital Marketing"
   persist_with: klaviyo_datagroup
@@ -286,5 +279,21 @@ explore: survey_20210622_persona {
   join: line_user {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${line_user.user_id} ;;
+  }
+}
+
+explore: line_user {
+  group_label: "Line"
+  join: customer {
+    relationship: one_to_one
+    sql_on: ${line_user.user_id} = ${customer.customer_id} ;;
+  }
+}
+
+explore: line_events {
+  group_label: "Line"
+  join: customer {
+    relationship: one_to_one
+    sql_on: ${line_events.user_id} = ${customer.customer_id} ;;
   }
 }
