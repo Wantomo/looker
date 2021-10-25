@@ -23,6 +23,7 @@ view: line_events {
     type: time
     timeframes: [
       hour_of_day,
+      day_of_week,
       raw,
       time,
       date,
