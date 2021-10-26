@@ -128,19 +128,21 @@ view: sessionized_pages {
   measure: count {
     label: "Page views"
     type: count
-    drill_fields: [campaign_name, sessions.session_id, sessions.campaign_name]
+    drill_fields: [timestamp_time,user_id,session_id]
   }
 
   measure: unique_user_count {
     label: "Visitors"
     type: count_distinct
     sql: ${user_id} ;;
+    drill_fields: [timestamp_time,user_id,session_id]
   }
 
   measure: unique_session_count {
     label: "Sessions"
     type: count_distinct
     sql: ${session_id} ;;
+    drill_fields: [timestamp_time,user_id,session_id]
   }
 
 

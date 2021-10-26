@@ -65,6 +65,11 @@ view: sendgrid_events {
     sql: ${TABLE}.count_open ;;
   }
 
+  dimension: customer_id {
+    type: number
+    sql: ${TABLE}.customer_id ;;
+  }
+
   dimension_group: deferred {
     type: time
     timeframes: [
@@ -197,6 +202,6 @@ view: sendgrid_events {
   }
 
   set: detail {
-    fields: [email, processed_date, message_id]
+    fields: [email, customer_id, processed_time, message_id]
   }
 }
