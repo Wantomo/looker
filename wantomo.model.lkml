@@ -250,6 +250,7 @@ explore: food_funnel {
 }
 
 explore: subscription_cancellation {
+  group_label: "Subscription"
 }
 
 explore: survey_20210622_persona {
@@ -288,6 +289,10 @@ explore: line_user {
     relationship: one_to_one
     sql_on: ${line_user.user_id} = ${customer.customer_id} ;;
   }
+}
+
+explore: sendgrid_events {
+  group_label: "Sendgrid"
 }
 
 explore: line_events {
