@@ -120,6 +120,11 @@ view: sendgrid_events {
     sql: ${TABLE}.email ;;
   }
 
+  dimension: email_domain {
+    type: string
+    sql: ${TABLE}.email_domain ;;
+  }
+
   dimension: message_id {
     type: string
     sql: ${TABLE}.message_id ;;
