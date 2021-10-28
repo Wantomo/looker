@@ -176,8 +176,20 @@ view: sendgrid_events {
     filters: [processed_date: "-NULL"]
   }
 
+  measure: count_unique_processed {
+    type: count_distinct
+    sql: ${email} ;;
+    filters: [processed_date: "-NULL"]
+  }
+
   measure: count_delivered {
     type: count
+    filters: [delivered_date: "-NULL"]
+  }
+
+  measure: count_unique_delivered {
+    type: count_distinct
+    sql: ${email} ;;
     filters: [delivered_date: "-NULL"]
   }
 
@@ -186,8 +198,20 @@ view: sendgrid_events {
     filters: [open_date: "-NULL"]
   }
 
+  measure: count_unique_opened {
+    type: count_distinct
+    sql: ${email} ;;
+    filters: [open_date: "-NULL"]
+  }
+
   measure: count_clicked {
     type: count
+    filters: [click_date: "-NULL"]
+  }
+
+  measure: count_unique_clicked {
+    type: count_distinct
+    sql: ${email} ;;
     filters: [click_date: "-NULL"]
   }
 
@@ -196,13 +220,31 @@ view: sendgrid_events {
     filters: [dropped_date: "-NULL"]
   }
 
+  measure: count_unique_dropped {
+    type: count_distinct
+    sql: ${email} ;;
+    filters: [dropped_date: "-NULL"]
+  }
+
   measure: count_deferred {
     type: count
     filters: [deferred_date: "-NULL"]
   }
 
+  measure: count_unique_deferred {
+    type: count_distinct
+    sql: ${email} ;;
+    filters: [deferred_date: "-NULL"]
+  }
+
   measure: count_bounced {
     type: count
+    filters: [bounce_date: "-NULL"]
+  }
+
+  measure: count_unique_bounced {
+    type: count_distinct
+    sql: ${email} ;;
     filters: [bounce_date: "-NULL"]
   }
 
