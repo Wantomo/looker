@@ -172,6 +172,15 @@ explore: sessionized_pages {
   persist_with: segment_datagroup
 }
 
+explore: sessionized_pages_with_events {
+  group_label: "Sessions"
+  persist_with: segment_datagroup
+  join: sessions {
+    relationship: many_to_one
+    sql_on: ${sessions.session_id} = ${sessionized_pages_with_events.session_id} ;;
+  }
+}
+
 explore: ga_daily_users {
   group_label: "Sessions"
 }
@@ -293,12 +302,24 @@ explore: line_user {
 
 explore: sendgrid_events {
   group_label: "Sendgrid"
+  join: customer {
+    relationship: many_to_one
+    sql_on: ${sendgrid_events.customer_id} = ${customer.customer_id} ;;
+  }
+  join: customer_facts {
+    relationship: one_to_one
+    sql_on: ${sendgrid_events.customer_id} = ${customer_facts.customer_id} ;;
+  }
 }
 
 explore: line_events {
   group_label: "Line"
   join: customer {
-    relationship: one_to_one
+    relationship: many_to_one
     sql_on: ${line_events.user_id} = ${customer.customer_id} ;;
+  }
+  join: customer_facts {
+    relationship: one_to_one
+    sql_on: ${line_events.user_id} = ${customer_facts.customer_id} ;;
   }
 }
