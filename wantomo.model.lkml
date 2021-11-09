@@ -262,6 +262,10 @@ explore: subscription_cancellation {
   group_label: "Subscription"
 }
 
+explore: subscription_cancellation_survey {
+  group_label: "Subscription"
+}
+
 explore: survey_20210622_persona {
   #required_access_grants: [access_grant_full]
   hidden:yes
