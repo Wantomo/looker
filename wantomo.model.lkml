@@ -100,6 +100,10 @@ explore: customer {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${customer_facts.customer_id} ;;
   }
+  join: customer_pet_facts {
+    relationship: one_to_one
+    sql_on: ${customer.customer_id} = ${customer_pet_facts.customer_id} ;;
+  }
   join: acquisition_utm {
     relationship: one_to_one
     sql_on: ${customer.customer_id} = ${acquisition_utm.customer_id} AND ${acquisition_utm.customer_id} is not null;;
