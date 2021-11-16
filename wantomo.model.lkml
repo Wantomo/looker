@@ -183,6 +183,18 @@ explore: sessionized_pages_with_events {
     relationship: many_to_one
     sql_on: ${sessions.session_id} = ${sessionized_pages_with_events.session_id} ;;
   }
+  join: customer {
+    relationship: many_to_one
+    sql_on: ${sessionized_pages_with_events.user_id} = CAST(${customer.customer_id} AS STRING);;
+  }
+  join: customer_facts {
+    relationship: one_to_one
+    sql_on: ${customer.customer_id} = ${customer_facts.customer_id} ;;
+  }
+  join: customer_pet_facts {
+    relationship: one_to_one
+    sql_on: ${customer.customer_id} = ${customer_pet_facts.customer_id} ;;
+  }
 }
 
 explore: ga_daily_users {

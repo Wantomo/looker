@@ -74,6 +74,19 @@ view: sessions {
     sql: ${TABLE}.last_page ;;
   }
 
+  dimension: order_sequence_food {
+    description: "Sequence of food order"
+    type: number
+    sql: ${TABLE}.order_sequence_food ;;
+  }
+
+  dimension: order_sequence_food_tier {
+    type: tier
+    tiers: [1,2,3,5,10,20]
+    style: integer
+    sql: ${order_sequence_food} ;;
+  }
+
   dimension: page_1 {
     type: string
     sql: ${TABLE}.page_1 ;;
