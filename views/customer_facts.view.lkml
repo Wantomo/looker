@@ -63,6 +63,18 @@ view: customer_facts {
     sql: ${TABLE}.customer_id ;;
   }
 
+  dimension: days_btw_subscription_and_first_purchase {
+    type: number
+    sql: ${TABLE}.days_btw_subscription_and_first_purchase ;;
+  }
+
+  dimension: days_btw_subscription_and_first_purchase_tier {
+    type: tier
+    tiers: [15,30,60,90,120,180]
+    style: integer
+    sql: ${days_btw_subscription_and_first_purchase} ;;
+  }
+
   dimension: first_order_id {
     type: string
     sql: ${TABLE}.first_order_id ;;
