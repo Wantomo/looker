@@ -63,10 +63,14 @@ view: subscription_cancellation_survey {
   dimension: user_id {
     type: string
     sql: ${TABLE}.user_id ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/29?Customer%20ID={{ value }}"
+    }
   }
 
   measure: count {
     type: count
-    drill_fields: []
+    drill_fields: [user_id]
   }
 }
