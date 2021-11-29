@@ -555,6 +555,11 @@ view: customer_facts {
     value_format: "0"
   }
 
+  measure: total_lifetime_sales {
+    type: sum
+    sql: ${lifetime_sales} ;;
+  }
+
   measure: total_lifetime_sales_3M {
     type: sum
     sql: ${lifetime_sales_3M} ;;
