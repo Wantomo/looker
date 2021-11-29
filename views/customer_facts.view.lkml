@@ -303,6 +303,21 @@ view: customer_facts {
     sql: ${lifetime_sales} ;;
   }
 
+  dimension: lifetime_sales_3M {
+    type: number
+    sql: ${TABLE}.lifetime_sales_3M ;;
+  }
+
+  dimension: lifetime_sales_6M {
+    type: number
+    sql: ${TABLE}.lifetime_sales_6M ;;
+  }
+
+  dimension: lifetime_sales_12M {
+    type: number
+    sql: ${TABLE}.lifetime_sales_12M ;;
+  }
+
   dimension: order_count {
     type: number
     sql: ${TABLE}.order_count ;;
@@ -538,5 +553,20 @@ view: customer_facts {
     type: median
     sql: ${last_subscription_sequence} ;;
     value_format: "0"
+  }
+
+  measure: total_lifetime_sales_3M {
+    type: sum
+    sql: ${lifetime_sales_3M} ;;
+  }
+
+  measure: total_lifetime_sales_6M {
+    type: sum
+    sql: ${lifetime_sales_6M} ;;
+  }
+
+  measure: total_lifetime_sales_12M {
+    type: sum
+    sql: ${lifetime_sales_12M} ;;
   }
 }
