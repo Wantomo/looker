@@ -133,6 +133,15 @@ view: pet {
           END ;;
   }
 
+  dimension: image {
+    type: string
+    link: {
+      label: "Image"
+      url: "https://cdn-media.leoandlea.com/{{ value }}"
+    }
+    sql: ${TABLE}.image ;;
+  }
+
   dimension: is_accurate_birthday {
     type: yesno
     sql: ${TABLE}.is_accurate_birthday = 1;;
