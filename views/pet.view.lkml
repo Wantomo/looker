@@ -142,6 +142,15 @@ view: pet {
     sql: ${TABLE}.image ;;
   }
 
+  dimension: image_full {
+    type: string
+    link: {
+      label: "Image"
+      url: "{{ value }}"
+    }
+    sql: concat('https://cdn-media.leoandlea.com/', ${TABLE}.image) ;;
+  }
+
   dimension: is_accurate_birthday {
     type: yesno
     sql: ${TABLE}.is_accurate_birthday = 1;;
