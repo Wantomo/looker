@@ -42,7 +42,15 @@ view: klaviyo_events_aggregated {
               IF
                 (orders.revenue IS NOT NULL,
                   orders.revenue,
-                  0) AS order_revenue
+                  0) AS order_revenue,
+              IF
+                (orders.count_subscription IS NOT NULL,
+                  orders.count_subscription,
+                  0) AS order_count_subscription,
+              IF
+                (orders.revenue_subscription IS NOT NULL,
+                  orders.revenue_subscription,
+                  0) AS order_revenue_subscription
               FROM
                 events_aggregated
               LEFT JOIN (
@@ -50,7 +58,9 @@ view: klaviyo_events_aggregated {
                   DATE(order_date) AS date,
                   campaign_name AS utm,
                   COUNT(entity_id) AS count,
-                  SUM(order_revenue) AS revenue
+                  SUM(order_revenue) AS revenue,
+                  COUNT(CASE WHEN is_subscription = 1 THEN entity_id ELSE NULL END) as count_subscription,
+                  SUM(CASE WHEN is_subscription = 1 THEN order_revenue ELSE 0 END) as revenue_subscription
                 FROM
                   `leafy-habitat-174801.dataform_segment.last_touch_utm`
                 GROUP BY
@@ -69,7 +79,9 @@ view: klaviyo_events_aggregated {
               SUM(click) AS click,
               SUM(unsubscribe) AS unsubscribe,
               SUM(order_count) AS order_count,
-              SUM(order_revenue) AS order_revenue
+              SUM(order_revenue) AS order_revenue,
+              SUM(order_count_subscription) AS order_count_subscription,
+              SUM(order_revenue_subscription) AS order_revenue_subscription
             FROM
               add_transactions
             WHERE type = "Drip"
@@ -89,7 +101,9 @@ view: klaviyo_events_aggregated {
               click,
               unsubscribe,
               order_count,
-              order_revenue
+              order_revenue,
+              SUM(order_count_subscription) AS order_count_subscription,
+              SUM(order_revenue_subscription) AS order_revenue_subscription
             FROM
               add_transactions
             WHERE type != "Drip"
@@ -157,6 +171,16 @@ view: klaviyo_events_aggregated {
     sql: ${TABLE}.order_revenue ;;
   }
 
+  measure: order_count_subscription {
+    type: sum
+    sql: ${TABLE}.order_count_subscription ;;
+  }
+
+  measure: order_revenue_subscription {
+    type: sum
+    sql: ${TABLE}.order_revenue_subscription ;;
+  }
+
   measure: OPR {
     type: number
     sql: ${open} / NULLIF(${receive}, 0)  * 100;;
@@ -172,6 +196,12 @@ view: klaviyo_events_aggregated {
   measure: CVR {
     type: number
     sql: ${order_count} / NULLIF(${receive}, 0)  * 100;;
+    value_format: "0.00\%"
+  }
+
+  measure: CVR_subscription {
+    type: number
+    sql: ${order_count_subscription} / NULLIF(${receive}, 0)  * 100;;
     value_format: "0.00\%"
   }
 
