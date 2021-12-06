@@ -102,8 +102,8 @@ view: klaviyo_events_aggregated {
               unsubscribe,
               order_count,
               order_revenue,
-              SUM(order_count_subscription) AS order_count_subscription,
-              SUM(order_revenue_subscription) AS order_revenue_subscription
+              order_count_subscription,
+              order_revenue_subscription
             FROM
               add_transactions
             WHERE type != "Drip"
