@@ -48,6 +48,12 @@ view: last_touch_utm {
     sql: ${TABLE}.increment_id ;;
   }
 
+  dimension: is_subscription {
+    label: "Is Subscription Order"
+    type: yesno
+    sql: ${TABLE}.is_subscription = 1 ;;
+  }
+
   dimension_group: order_date {
     type: time
     timeframes: [
