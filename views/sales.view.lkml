@@ -278,6 +278,6 @@ view: sales {
   }
 
   set: order_detail {
-    fields: [customer_id, customer_email, customer_firstname, customer_lastname, entity_id, increment_id, created_date, status]
+    fields: [created_date, increment_id, customer_id, customer_email, last_touch_utm.channel, last_touch_utm.campaign_source, last_touch_utm.campaign_medium, last_touch_utm.campaign_name]
   }
 }
