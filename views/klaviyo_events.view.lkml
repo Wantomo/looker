@@ -71,13 +71,14 @@ view: klaviyo_events {
 
   measure: count {
     type: count
-    drill_fields: [id]
+    drill_fields: [id, email, date_raw, flow]
   }
 
   measure: unique_user_count {
     label: "Count of Unique Email"
     type: count_distinct
     sql: ${email} ;;
+    drill_fields: [id, email, date_raw, flow]
   }
 
   measure: count_unique_received {
@@ -85,6 +86,7 @@ view: klaviyo_events {
     type: count_distinct
     sql: ${email} ;;
     filters: [event: "Received Email"]
+    drill_fields: [id, email, date_raw, flow]
   }
 
   measure: count_unique_open {
@@ -92,6 +94,7 @@ view: klaviyo_events {
     type: count_distinct
     sql: ${email} ;;
     filters: [event: "Opened Email"]
+    drill_fields: [id, email, date_raw, flow]
   }
 
   measure: count_unique_click {
@@ -99,6 +102,7 @@ view: klaviyo_events {
     type: count_distinct
     sql: ${email} ;;
     filters: [event: "Clicked Email"]
+    drill_fields: [id, email, date_raw, flow]
   }
 
   measure: count_unique_unsubscribed{
@@ -106,6 +110,7 @@ view: klaviyo_events {
     type: count_distinct
     sql: ${email} ;;
     filters: [event: "Unsubscribed"]
+    drill_fields: [id, email, date_raw, flow]
   }
 
 }
