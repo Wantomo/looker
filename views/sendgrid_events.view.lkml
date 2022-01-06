@@ -68,6 +68,10 @@ view: sendgrid_events {
   dimension: customer_id {
     type: number
     sql: ${TABLE}.customer_id ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/29?Customer%20ID={{ value }}"
+    }
   }
 
   dimension_group: deferred {
@@ -118,6 +122,10 @@ view: sendgrid_events {
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/29?Email={{ value }}"
+    }
   }
 
   dimension: email_domain {

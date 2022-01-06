@@ -85,6 +85,10 @@ view: sales {
     group_label: "Customer"
     type: string
     sql: ${TABLE}.customer_email ;;
+    link: {
+      label: "See details"
+      url: "/dashboards-next/29?Email={{ value }}"
+    }
   }
 
   dimension: customer_firstname {
@@ -95,7 +99,7 @@ view: sales {
   }
 
   dimension: customer_id {
-    label: "Id"
+    label: "Customer Id"
     group_label: "Customer"
     type: number
     sql: ${TABLE}.customer_id ;;
