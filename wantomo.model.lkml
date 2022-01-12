@@ -343,3 +343,11 @@ explore: line_events {
     sql_on: ${line_events.user_id} = ${customer_facts.customer_id} ;;
   }
 }
+
+explore: rich_menu_analytics {
+  group_label: "Line"
+}
+
+explore: rich_menu_analytics_flat {
+  group_label: "Line"
+}
