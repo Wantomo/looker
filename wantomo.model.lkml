@@ -282,6 +282,14 @@ explore: subscription_cancellation_survey {
   group_label: "Subscription"
 }
 
+explore: subscription_started {
+  group_label: "Subscription"
+  join: subscription {
+    relationship: one_to_one
+    sql_on: CAST(${subscription.customer_id} as STRING) = ${subscription_started.user_id};;
+  }
+}
+
 explore: survey_20210622_persona {
   #required_access_grants: [access_grant_full]
   hidden:yes
