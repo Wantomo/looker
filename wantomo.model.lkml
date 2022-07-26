@@ -75,6 +75,10 @@ explore: sales {
     relationship: one_to_one
     sql_on: ${subscription.customer_id} = ${customer.customer_id} ;;
   }
+  join: jerky_only_orders {
+    relationship: one_to_one
+    sql_on: ${sales.increment_id} = ${jerky_only_orders.order_id} ;;
+  }
 }
 
 explore: sales_without_filters {
